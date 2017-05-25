@@ -1,5 +1,7 @@
 package de.nico_assfalg.apps.android.clausura;
 
+import android.content.Context;
+
 import java.util.Calendar;
 
 import static java.lang.Math.abs;
@@ -12,21 +14,21 @@ public abstract class Calculator {
         return (int) (distance / 1000 / 86400); //convert ms to days
     }
 
-    public static String daysUntilAsString(Date date) {
+    public static String daysUntilAsString(Date date, Context c) {
         int daysUntil = daysUntil(date);
         String until;
         if (daysUntil == 1) {
-            until = "Morgen";
+            until = c.getString(R.string.text_tomorrow);
         } else if (daysUntil == 0) {
-            until = "Heute";
+            until = c.getString(R.string.text_today);
         } else if (daysUntil < 0) {
-            until = "Gestern";
+            until = c.getString(R.string.text_yesterday);
             if (daysUntil < -1) {
-                until = "Vor " + abs(daysUntil) + " Tagen";
+                until = c.getString(R.string.text_x_days_ago, abs(daysUntil));
             }
         }
         else {
-            until = "In " + daysUntil + " Tagen";
+            until = c.getString(R.string.text_in_x_days, daysUntil);
         }
         return until;
     }

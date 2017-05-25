@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         TextView titleText = (TextView) lectureEnd.findViewById(R.id.examTitle);
-        titleText.setText("Ende der Vorlesungszeit");
+        titleText.setText(getString(R.string.text_end_of_lecture));
         TextView daysUntil = (TextView) lectureEnd.findViewById(R.id.examDaysUntil);
         lectureEndDate = PreferenceHelper.getPreference(this, "endOfLectureDate");
         if (lectureEndDate.equals("")) {
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
             lectureEndDate = current.toString();
         }
         Date date = new Date(lectureEndDate);
-        String dateAndUntil = date.toHumanString() + " ‒ " + Calculator.daysUntilAsString(date);
+        String dateAndUntil = date.toHumanString() + " ‒ " + Calculator.daysUntilAsString(date, this);
         daysUntil.setText(dateAndUntil);
         TextView invisibleDate = (TextView) lectureEnd.findViewById(R.id.examDay);
         invisibleDate.setVisibility(View.INVISIBLE);
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity
         examDay.setText(String.valueOf(date.getDay()));
         examDayOfWeek.setText(date.getDayAsShortString());
         examTitle.setText(title);
-        examDaysUntil.setText(Calculator.daysUntilAsString(date));
+        examDaysUntil.setText(Calculator.daysUntilAsString(date, this));
 
         return examLayout;
     }
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity
             TextView dateLineTextUntil = (TextView) dialog.findViewById(R.id.dateLineTextUntil);
             Date date = new Date(cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_DATE)));
             dateLineTextDate.setText(date.toHumanString());
-            dateLineTextUntil.setText(Calculator.daysUntilAsString(date));
+            dateLineTextUntil.setText(Calculator.daysUntilAsString(date, this));
 
             TextView timeLineText = (TextView) dialog.findViewById(R.id.timeLineText);
             String time = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TIME));
