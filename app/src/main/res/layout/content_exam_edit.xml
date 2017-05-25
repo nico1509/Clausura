@@ -59,8 +59,9 @@
             <EditText
                 android:id="@+id/editNotes"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="122dp"
                 android:ems="10"
+                android:gravity="top"
                 android:hint="Notizen"
                 android:inputType="textMultiLine" />
         </LinearLayout>
