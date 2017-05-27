@@ -9,9 +9,7 @@
         android:title="Vergangene Termine   " />
     <item
         android:id="@+id/action_backup"
-        android:enabled="false"
-        android:title="Backup"
-        android:visible="false" />
+        android:title="Datensicherung" />
     <item
         android:id="@+id/action_restore"
         android:title="Wiederherstellen"
