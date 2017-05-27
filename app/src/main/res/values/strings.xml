@@ -101,4 +101,5 @@
     <string name="title_activity_backup_restore">BackupRestoreActivity</string>
     <string name="button_backup">Backup</string>
     <string name="button_restore">Wiederherstellen</string>
+    <string name="text_backup_info">REPLACE WITH BACKUP RESTORE INFO</string>
 </resources>
