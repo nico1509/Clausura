@@ -379,6 +379,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.action_backup) {
+            Intent intent = new Intent(MainActivity.this, BackupRestoreActivity.class);
+            startActivity(intent);
         }
 
         if (id == R.id.action_restore) {
