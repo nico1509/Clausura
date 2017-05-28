@@ -3,15 +3,26 @@ package de.nico_assfalg.apps.android.clausura;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Calendar;
 
 public class BackupRestoreActivity extends AppCompatActivity {
 
@@ -60,11 +71,45 @@ public class BackupRestoreActivity extends AppCompatActivity {
     }
 
     private void backup() {
+        ExamDBHelper dbHelper = new ExamDBHelper(this);
+        File dbSource = dbHelper.getDatabaseFile(this);
+        File dbTargetFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Clausura");
+        dbTargetFolder.mkdirs();
 
+        File dbTarget = new File(dbTargetFolder.getPath() + "/backup " + timestamp() + ".db");
+
+        try {
+            copy(dbSource, dbTarget);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String timestamp() {
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date(calendar);
+        return date.toHumanString() + " " + calendar.get(Calendar.HOUR_OF_DAY)
+                + ":" + calendar.get(Calendar.MINUTE)
+                + ":" + calendar.get(Calendar.SECOND);
     }
 
     private void restore() {
+        ExamDBHelper dbHelper = new ExamDBHelper(this);
 
+        //TODO: Show FilePicker!
+    }
+
+    private void copy(File src, File tgt) throws IOException {
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(tgt);
+
+        byte[] buf = new byte[1024];
+        int length;
+        while ((length = in.read(buf)) > 0) {
+            out.write(buf, 0, length);
+        }
+        in.close();
+        out.close();
     }
 
     private boolean checkStoragePermission() {
