@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.File;
+
 public class ExamDBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Exams.db";
@@ -80,6 +82,11 @@ public class ExamDBHelper extends SQLiteOpenHelper {
     public Integer deleteExam(int id) {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(EXAM_TABLE_NAME, EXAM_COLUMN_ID + " = ? ", new String[] {Integer.toString(id) } );
+    }
+
+    public File getDatabaseFile(Context context) {
+        File dbFile = context.getDatabasePath(DATABASE_NAME);
+        return dbFile;
     }
 
 
