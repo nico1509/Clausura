@@ -102,4 +102,6 @@
     <string name="button_backup">Backup</string>
     <string name="button_restore">Wiederherstellen</string>
     <string name="text_backup_info">REPLACE WITH BACKUP RESTORE INFO</string>
+    <string name="text_permission_denied_restore">Keine Berechtigung gewährt. Wiederherstellen fehlgeschlagen.</string>
+    <string name="text_permission_denied_backup">Keine Berechtigung gewährt. Backup fehlgeschlagen.</string>
 </resources>
