@@ -1,6 +1,7 @@
 package de.nico_assfalg.apps.android.clausura;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.List;
+
+import easyfilepickerdialog.kingfisher.com.library.model.DialogConfig;
+import easyfilepickerdialog.kingfisher.com.library.model.SupportFile;
+import easyfilepickerdialog.kingfisher.com.library.view.FilePickerDialogFragment;
 
 public class BackupRestoreActivity extends AppCompatActivity {
 
@@ -95,8 +101,34 @@ public class BackupRestoreActivity extends AppCompatActivity {
 
     private void restore() {
         ExamDBHelper dbHelper = new ExamDBHelper(this);
+        final File dbSource = dbHelper.getDatabaseFile(this);
 
-        //TODO: Show FilePicker!
+        //show file picker
+        DialogConfig dialogConfig = new DialogConfig.Builder()
+                .enableFolderSelect(false)
+                .enableMultipleSelect(false)
+                .initialDirectory(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath() + File.separator + "Clausura")
+                .supportFiles(new SupportFile(".db", 0))
+                .build();
+
+        new FilePickerDialogFragment.Builder()
+                .configs(dialogConfig)
+                .onFilesSelected(new FilePickerDialogFragment.OnFilesSelectedListener() {
+                    @Override
+                    public void onFileSelected(List<File> list) { //handle selection
+                        for (File file : list) {
+                            try {
+                                copy(file, dbSource);
+                                Intent intent = new Intent(BackupRestoreActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                })
+                .build()
+                .show(getSupportFragmentManager(), null);
     }
 
     private void copy(File src, File tgt) throws IOException {
