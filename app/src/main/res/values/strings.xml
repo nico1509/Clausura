@@ -110,4 +110,9 @@
     <string name="dialog_restore_fail_permission">Wiederherstellung der Daten fehlgeschlagen, da kein Speicherzugriff gewährt wurde!</string>
     <string name="dialog_backup_fail_other">Sicherung der Daten fehlgeschlagen!</string>
     <string name="dialog_restore_fail_other">Wiederherstellung der Daten fehlgeschlagen!</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="title_choose_backup">Sicherung auswählen</string>
+    <string name="dialog_restore_fail_no_backups">Es sind noch keine Sicherungen vorhanden!</string>
+    <string name="text_backup_from">Sicherung vom</string>
+    <string name="text_backup_file_prefix">Clausura Sicherung</string>
 </resources>
