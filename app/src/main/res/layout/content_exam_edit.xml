@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Titel"
+                android:hint="@string/hint_title"
                 android:inputType="text" />
 
             <EditText
@@ -36,7 +36,7 @@
                 android:cursorVisible="false"
                 android:editable="false"
                 android:ems="10"
-                android:hint="Datum"
+                android:hint="@string/hint_date"
                 android:inputType="none"
                 tools:clickable="false" />
 
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Uhrzeit"
+                android:hint="@string/hint_time"
                 android:inputType="time" />
 
             <EditText
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:ems="10"
-                android:hint="Ort"
+                android:hint="@string/hint_location"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -62,7 +62,7 @@
                 android:layout_height="122dp"
                 android:ems="10"
                 android:gravity="top"
-                android:hint="Notizen"
+                android:hint="@string/hint_notes"
                 android:inputType="textMultiLine" />
         </LinearLayout>
     </ScrollView>
