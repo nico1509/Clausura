@@ -105,6 +105,9 @@ public class Date {
     }
 
     public static String parseTimeStringToHumanString(String time) {
+        if (time == null || time.equals("")) {
+            return "";
+        }
         String[] parts = time.split("-");
         return parts[0] + ":" + parts[1];
     }

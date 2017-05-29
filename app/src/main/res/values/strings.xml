@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">Clausura</string>
+﻿<resources>
+    <string name="app_name" translatable="false">Clausura</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_detail">Details</string>
     <string name="large_text">
@@ -91,9 +91,9 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="title_activity_edit_exam">EditExamActivity</string>
-    <string name="title_activity_create_or_edit">CreateOrEditActivity</string>
-    <string name="title_activity_exam_details">ExamDetailsActivity</string>
+    <string name="title_activity_edit_exam" translatable="false">EditExamActivity</string>
+    <string name="title_activity_create_or_edit" translatable="false">CreateOrEditActivity</string>
+    <string name="title_activity_exam_details" translatable="false">ExamDetailsActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -119,4 +119,17 @@
     <string name="dialog_restore_fail_no_backups">Es sind noch keine Sicherungen vorhanden!</string>
     <string name="text_backup_from">Sicherung vom</string>
     <string name="text_backup_file_prefix">Clausura Sicherung</string>
+    <string name="hint_title">Titel</string>
+    <string name="hint_date">Datum</string>
+    <string name="hint_time">Uhrzeit</string>
+    <string name="hint_location">Ort</string>
+    <string name="hint_notes">Notizen</string>
+    <string name="button_delete">Entfernen</string>
+    <string name="button_edit">Bearbeiten</string>
+    <string name="text_end_of_lecture">Ende der Vorlesungszeit</string>
+    <string name="text_tomorrow">Morgen</string>
+    <string name="text_today">Heute</string>
+    <string name="text_yesterday">Gestern</string>
+    <string name="text_x_days_ago">Vor %1$d Tagen</string>
+    <string name="text_in_x_days">In %1$d Tagen</string>
 </resources>
