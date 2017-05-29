@@ -98,10 +98,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_exam_edit">Bearbeiten</string>
-    <string name="title_activity_backup_restore">BackupRestoreActivity</string>
+    <string name="title_activity_backup_restore">Datensicherung</string>
     <string name="button_backup">Backup</string>
     <string name="button_restore">Wiederherstellen</string>
     <string name="text_backup_info">REPLACE WITH BACKUP RESTORE INFO</string>
     <string name="text_permission_denied_restore">Keine Berechtigung gewährt. Wiederherstellen fehlgeschlagen.</string>
     <string name="text_permission_denied_backup">Keine Berechtigung gewährt. Backup fehlgeschlagen.</string>
+    <string name="dialog_backup_success">Daten erfolgreich gesichert!</string>
+    <string name="dialog_backup_fail_permission">Sicherung der Daten fehlgeschlagen, da kein Speicherzugriff gewährt wurde!</string>
+    <string name="dialog_restore_success">Daten erfolgreich wiederhergestellt!</string>
+    <string name="dialog_restore_fail_permission">Wiederherstellung der Daten fehlgeschlagen, da kein Speicherzugriff gewährt wurde!</string>
+    <string name="dialog_backup_fail_other">Sicherung der Daten fehlgeschlagen!</string>
+    <string name="dialog_restore_fail_other">Wiederherstellung der Daten fehlgeschlagen!</string>
 </resources>
