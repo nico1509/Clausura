@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -15,9 +16,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -89,7 +92,8 @@ public class BackupRestoreActivity extends AppCompatActivity {
         File dbTargetFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Clausura");
         dbTargetFolder.mkdirs();
 
-        File dbTarget = new File(dbTargetFolder.getPath() + "/backup " + timestamp() + ".db");
+        File dbTarget = new File(dbTargetFolder.getPath() + File.separator
+                + getString(R.string.text_backup_file_prefix) + " " + timestamp() + ".db");
 
         try {
             copy(dbSource, dbTarget);
@@ -103,9 +107,17 @@ public class BackupRestoreActivity extends AppCompatActivity {
     private String timestamp() {
         Calendar calendar = Calendar.getInstance();
         Date date = new Date(calendar);
-        return date.toHumanString() + " " + calendar.get(Calendar.HOUR_OF_DAY)
-                + ":" + calendar.get(Calendar.MINUTE)
-                + ":" + calendar.get(Calendar.SECOND);
+
+        String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        hour = hour.length() == 1 ? "0" + hour : hour;
+
+        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
+        minute = minute.length() == 1 ? "0" + minute : minute;
+
+        String second = String.valueOf(calendar.get(Calendar.SECOND));
+        second = second.length() == 1 ? "0" + second : second;
+
+        return date.toHumanString() + " " + hour + ":" + minute + ":" + second;
     }
 
     private void restore() {
@@ -115,34 +127,59 @@ public class BackupRestoreActivity extends AppCompatActivity {
         showFilePickerDialog(database);
     }
 
-    private void showFilePickerDialog(File database) {
-        final File target = database;
+    private void showFilePickerDialog(final File database) {
+        //Look for backups
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                .getPath() + File.separator + "Clausura";
+        File backupFolder = new File(path);
+        File[] backups = backupFolder.listFiles();
+        if (backups == null) { //no backup -> Error
+            showInfoDialog(R.string.dialog_restore_fail_no_backups, null);
+            return;
+        }
 
-        DialogConfig dialogConfig = new DialogConfig.Builder()
-                .enableFolderSelect(false)
-                .enableMultipleSelect(false)
-                .initialDirectory(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath() + File.separator + "Clausura")
-                .supportFiles(new SupportFile(".db", 0))
-                .build();
+        //if backups are present shw file chooser
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_file_chooser);
 
-        new FilePickerDialogFragment.Builder()
-                .configs(dialogConfig)
-                .onFilesSelected(new FilePickerDialogFragment.OnFilesSelectedListener() {
-                    @Override
-                    public void onFileSelected(List<File> list) { //handle selection
-                        for (File file : list) {
-                            try {
-                                copy(file, target);
-                                showInfoDialog(R.string.dialog_restore_success, backToMainIntent);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                showInfoDialog(R.string.dialog_restore_fail_other, null);
-                            }
-                        }
+        Button okButton = (Button) dialog.findViewById(R.id.okButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout fileListLayout = (LinearLayout) dialog.findViewById(R.id.fileListLayout);
+
+        for (final File backup : backups) {
+            LayoutInflater inflater = getLayoutInflater();
+
+            ConstraintLayout backupLayout = (ConstraintLayout) inflater
+                    .inflate(R.layout.layout_file_backup, null, false);
+
+            TextView backupName = (TextView) backupLayout.findViewById(R.id.fileNameText);
+            String backupFileName = getString(R.string.text_backup_from) + backup.getName()
+                    .replace(getString(R.string.text_backup_file_prefix), "").replace(".db", "");
+            backupName.setText(backupFileName);
+            backupName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    try {
+                        copy(backup, database);
+                        showInfoDialog(R.string.dialog_restore_success, backToMainIntent);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        showInfoDialog(R.string.dialog_restore_fail_other, null);
                     }
-                })
-                .build()
-                .show(getSupportFragmentManager(), null);
+                }
+            });
+
+            fileListLayout.addView(backupLayout);
+            dialog.show();
+        }
     }
 
     private void showInfoDialog(int stringResource, Intent intent) {
