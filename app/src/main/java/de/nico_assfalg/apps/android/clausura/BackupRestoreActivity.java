@@ -1,6 +1,7 @@
 package de.nico_assfalg.apps.android.clausura;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +37,8 @@ public class BackupRestoreActivity extends AppCompatActivity {
 
     private final int ID_PERMISSION_STORAGE_BACKUP = 1;
     private final int ID_PERMISSION_STORAGE_RESTORE = 2;
+
+    private Intent backToMainIntent;
 
     private Button backupButton;
     private Button restoreButton;
@@ -56,6 +61,8 @@ public class BackupRestoreActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initializeButtons();
+        backToMainIntent = new Intent(BackupRestoreActivity.this, MainActivity.class);
+        setTitle(getString(R.string.title_activity_backup_restore));
     }
 
     private void initializeButtons() {
@@ -86,8 +93,10 @@ public class BackupRestoreActivity extends AppCompatActivity {
 
         try {
             copy(dbSource, dbTarget);
+            showInfoDialog(R.string.dialog_backup_success, backToMainIntent);
         } catch (IOException e) {
             e.printStackTrace();
+            showInfoDialog(R.string.dialog_backup_fail_other, null);
         }
     }
 
@@ -101,9 +110,14 @@ public class BackupRestoreActivity extends AppCompatActivity {
 
     private void restore() {
         ExamDBHelper dbHelper = new ExamDBHelper(this);
-        final File dbSource = dbHelper.getDatabaseFile(this);
+        final File database = dbHelper.getDatabaseFile(this);
 
-        //show file picker
+        showFilePickerDialog(database);
+    }
+
+    private void showFilePickerDialog(File database) {
+        final File target = database;
+
         DialogConfig dialogConfig = new DialogConfig.Builder()
                 .enableFolderSelect(false)
                 .enableMultipleSelect(false)
@@ -118,17 +132,40 @@ public class BackupRestoreActivity extends AppCompatActivity {
                     public void onFileSelected(List<File> list) { //handle selection
                         for (File file : list) {
                             try {
-                                copy(file, dbSource);
-                                Intent intent = new Intent(BackupRestoreActivity.this, MainActivity.class);
-                                startActivity(intent);
+                                copy(file, target);
+                                showInfoDialog(R.string.dialog_restore_success, backToMainIntent);
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                showInfoDialog(R.string.dialog_restore_fail_other, null);
                             }
                         }
                     }
                 })
                 .build()
                 .show(getSupportFragmentManager(), null);
+    }
+
+    private void showInfoDialog(int stringResource, Intent intent) {
+        final Dialog dialog = new Dialog(this);
+        final Intent intentFinal = intent;
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_info);
+
+        TextView infoText = (TextView) dialog.findViewById(R.id.infoText);
+        infoText.setText(getString(stringResource));
+
+        Button okButton = (Button) dialog.findViewById(R.id.okButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                if (intentFinal != null) {
+                    startActivity(intentFinal);
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     private void copy(File src, File tgt) throws IOException {
@@ -176,8 +213,7 @@ public class BackupRestoreActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     backup();
                 } else {
-                    Snackbar error = Snackbar.make(backupButton, getString(R.string.text_permission_denied_backup), Snackbar.LENGTH_LONG);
-                    error.show();
+                    showInfoDialog(R.string.dialog_backup_fail_permission, null);
                 }
                 return;
 
@@ -186,8 +222,7 @@ public class BackupRestoreActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     restore();
                 } else {
-                    Snackbar error = Snackbar.make(restoreButton, getString(R.string.text_permission_denied_restore), Snackbar.LENGTH_LONG);
-                    error.show();
+                    showInfoDialog(R.string.dialog_restore_fail_permission, null);
                 }
                 //return;
         }
