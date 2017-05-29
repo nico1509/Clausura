@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity
 
     static String lectureEndDate;
 
+    final String SEPARATOR = "  ·  ";
+
     Date tempDate; //needed for monthYear labels
 
     //OLD SHIT
@@ -117,6 +119,7 @@ public class MainActivity extends AppCompatActivity
                 //Get exam Title, Date and _id
                 String title = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TITLE));
                 String date = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_DATE));
+                String time = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TIME));
                 int id = cursor.getInt(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_ID));
 
                 if (!pastAllowed()) {
@@ -126,13 +129,13 @@ public class MainActivity extends AppCompatActivity
                         //Add Month/Year label if necessary
                         addMonthYearLabel(date);
                         //Make Exam Element and add it to the List
-                        examList.addView(examElement(title, date, id));
+                        examList.addView(examElement(title, date, time, id));
                     }
                 } else {
                     //Add Month/Year label if necessary
                     addMonthYearLabel(date);
                     //Make Exam Element and add it to the List
-                    examList.addView(examElement(title, date, id));
+                    examList.addView(examElement(title, date, time, id));
                 }
                 cursor.moveToNext();
             }
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity
             lectureEndDate = current.toString();
         }
         Date date = new Date(lectureEndDate);
-        String dateAndUntil = date.toHumanString() + " ‒ " + Calculator.daysUntilAsString(date, this);
+        String dateAndUntil = date.toHumanString() + SEPARATOR + Calculator.daysUntilAsString(date, this);
         daysUntil.setText(dateAndUntil);
         TextView invisibleDate = (TextView) lectureEnd.findViewById(R.id.examDay);
         invisibleDate.setVisibility(View.INVISIBLE);
@@ -188,7 +191,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private LinearLayout examElement(String title, String dateString, int id) {
+    private LinearLayout examElement(String title, String dateString, String timeString, int id) {
         //inflate the layout file and define its TextViews
         final LinearLayout examLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.layout_exam, null, false);
         TextView examDay = (TextView) examLayout.findViewById(R.id.examDay);
@@ -211,8 +214,14 @@ public class MainActivity extends AppCompatActivity
         //set text of TextViews
         examDay.setText(String.valueOf(date.getDay()));
         examDayOfWeek.setText(date.getDayAsShortString());
+
         examTitle.setText(title);
-        examDaysUntil.setText(Calculator.daysUntilAsString(date, this));
+        String examDaysUntilString = Calculator.daysUntilAsString(date, this);
+        examDaysUntilString = !timeString.equals("") ?
+                examDaysUntilString + SEPARATOR + Date.parseTimeStringToHumanString(timeString) :
+                examDaysUntilString;
+
+        examDaysUntil.setText(examDaysUntilString);
 
         return examLayout;
     }
