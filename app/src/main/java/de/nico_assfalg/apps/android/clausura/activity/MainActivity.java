@@ -1,19 +1,14 @@
 package de.nico_assfalg.apps.android.clausura.activity;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,17 +22,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.util.Calendar;
 
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
-import de.nico_assfalg.apps.android.clausura.ExamHandler;
 import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
 import de.nico_assfalg.apps.android.clausura.R;
 
@@ -399,87 +388,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        if (id == R.id.action_restore) {
-        }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_ID_EXTERNAL_STORAGE:
-                if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    doBackupMode(backupMode);
-                } else {
-                    Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), "Zugriff verweigert,\r\nAktion nicht möglich!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-        }
-    }
-
-    public void doBackupMode(int mode) {
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            backupMode = mode;
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_ID_EXTERNAL_STORAGE);
-        } else {
-            switch (mode) {
-                case BACKUP_SAVE:
-                    saveBackup();
-                    break;
-                case BACKUP_RESTORE:
-                    restoreBackup();
-                    break;
-            }
-        }
-    }
-
-    public void saveBackup() {
-        String success = "null";
-        //Check if writable and do backup
-        try {
-            String storageState = Environment.getExternalStorageState();
-            if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "ClausuraBackup"); /*_" + new Date(Calendar.getInstance()).toString() + "_" + Date.currentTimeinMs()*/
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(ExamHandler.getAsString().getBytes());
-                fos.close();
-            }
-            success = "Backup erfolgreich!";
-        } catch (Exception e) {
-            success = "Backup NICHT erfolgreich!";
-            e.printStackTrace();
-        } finally {
-            Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), success, Snackbar.LENGTH_SHORT);
-            snackbar.show();
-        }
-    }
-
-    public void restoreBackup() {
-        String storageState = Environment.getExternalStorageState();
-        String success = "nix";
-        try {
-            //Check if writable and restore the backup
-            if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "ClausuraBackup");
-                BufferedReader inputReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                String inputString;
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((inputString = inputReader.readLine()) != null) {
-                    stringBuilder.append(inputString);
-                }
-                PreferenceHelper.setPreference(getApplicationContext(), stringBuilder.toString(), "examList");
-
-                success = "Erfolgreich wiederhergestellt";
-            }
-        } catch (Exception e) {
-            success = "Fehler bei der Wiederherstellung";
-            e.printStackTrace();
-        } finally {
-            Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), success, Snackbar.LENGTH_SHORT);
-            snackbar.show();
-        }
     }
 
     //DatePicker Shit
