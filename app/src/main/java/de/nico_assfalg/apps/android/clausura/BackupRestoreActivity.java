@@ -21,13 +21,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class BackupRestoreActivity extends AppCompatActivity {
 
@@ -86,15 +92,69 @@ public class BackupRestoreActivity extends AppCompatActivity {
         dbTargetFolder.mkdirs();
 
         File dbTarget = new File(dbTargetFolder.getPath() + File.separator
-                + getString(R.string.text_backup_file_prefix) + " " + timestamp() + ".db");
+                + getString(R.string.text_backup_file_prefix) + " " + timestamp() + ".zip");
 
         try {
-            copy(dbSource, dbTarget);
+            createBackupZip(dbSource, dbTarget);
             showInfoDialog(R.string.dialog_backup_success, backToMainIntent);
         } catch (IOException e) {
             e.printStackTrace();
             showInfoDialog(R.string.dialog_backup_fail_other, null);
         }
+    }
+
+    private void createBackupZip(File dbFile, File backupFile) throws IOException {
+        //output zip
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(backupFile));
+
+        //Part 1: The Database
+        out.putNextEntry(new ZipEntry("database.db"));
+        FileInputStream fis = new FileInputStream(dbFile);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = fis.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
+        }
+        fis.close();
+
+
+        //Part 2: The Settings
+        out.putNextEntry(new ZipEntry("settings.txt"));
+        String lectureEnd = PreferenceHelper.getPreference(this, "endOfLectureDate");
+        buffer = lectureEnd.getBytes();
+        out.write(buffer, 0, buffer.length);
+        out.closeEntry();
+        out.close();
+    }
+
+    private void readBackupZip(File backupFile, File dbFile) throws IOException {
+        //input zip
+        ZipInputStream in = new ZipInputStream(new FileInputStream(backupFile));
+
+        //Part 1: The Database
+        in.getNextEntry();
+        File temp = File.createTempFile("database", "db");
+        FileOutputStream fos = new FileOutputStream(temp);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = in.read(buffer)) > 0) {
+            fos.write(buffer, 0, length);
+        }
+        fos.close();
+        copy(temp, dbFile);
+
+        //Part 2: The Settings
+        ZipEntry txt = in.getNextEntry();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        buffer = new byte[1024];
+        while ((length = in.read(buffer)) > 0) {
+            os.write(buffer, 0, length);
+        }
+        os.flush();
+        byte[] result = os.toByteArray();
+        String lectureEnd = new String(result);
+        PreferenceHelper.setPreference(this, lectureEnd, "endOfLectureDate");
+        in.close();
     }
 
     private String timestamp() {
@@ -154,14 +214,14 @@ public class BackupRestoreActivity extends AppCompatActivity {
 
             TextView backupName = (TextView) backupLayout.findViewById(R.id.fileNameText);
             String backupFileName = getString(R.string.text_backup_from) + backup.getName()
-                    .replace(getString(R.string.text_backup_file_prefix), "").replace(".db", "");
+                    .replace(getString(R.string.text_backup_file_prefix), "").replace(".zip", "");
             backupName.setText(backupFileName);
             backupName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
                     try {
-                        copy(backup, database);
+                        readBackupZip(backup, database);
                         showInfoDialog(R.string.dialog_restore_success, backToMainIntent);
                     } catch (IOException e) {
                         e.printStackTrace();
