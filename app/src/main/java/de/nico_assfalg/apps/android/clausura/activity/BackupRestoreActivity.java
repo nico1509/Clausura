@@ -1,4 +1,4 @@
-package de.nico_assfalg.apps.android.clausura;
+package de.nico_assfalg.apps.android.clausura.activity;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -21,11 +21,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +32,11 @@ import java.util.Calendar;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import de.nico_assfalg.apps.android.clausura.time.Date;
+import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
+import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
+import de.nico_assfalg.apps.android.clausura.R;
 
 public class BackupRestoreActivity extends AppCompatActivity {
 

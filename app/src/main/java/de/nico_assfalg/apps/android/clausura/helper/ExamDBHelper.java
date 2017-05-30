@@ -1,4 +1,4 @@
-package de.nico_assfalg.apps.android.clausura;
+package de.nico_assfalg.apps.android.clausura.helper;
 
 import android.content.ContentValues;
 import android.content.Context;

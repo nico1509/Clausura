@@ -1,4 +1,4 @@
-package de.nico_assfalg.apps.android.clausura;
+package de.nico_assfalg.apps.android.clausura.activity;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -33,6 +33,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
+
+import de.nico_assfalg.apps.android.clausura.time.Calculator;
+import de.nico_assfalg.apps.android.clausura.time.Date;
+import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
+import de.nico_assfalg.apps.android.clausura.ExamHandler;
+import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
+import de.nico_assfalg.apps.android.clausura.R;
 
 import static de.nico_assfalg.apps.android.clausura.R.id.coordinatorLayout;
 

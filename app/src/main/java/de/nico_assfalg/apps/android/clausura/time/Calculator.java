@@ -1,8 +1,10 @@
-package de.nico_assfalg.apps.android.clausura;
+package de.nico_assfalg.apps.android.clausura.time;
 
 import android.content.Context;
 
 import java.util.Calendar;
+
+import de.nico_assfalg.apps.android.clausura.R;
 
 import static java.lang.Math.abs;
 

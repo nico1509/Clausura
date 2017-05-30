@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="de.nico_assfalg.apps.android.clausura.MainActivity"
+    tools:context="de.nico_assfalg.apps.android.clausura.activity.MainActivity"
     android:id="@+id/coordinatorLayout">
 
     <android.support.design.widget.AppBarLayout

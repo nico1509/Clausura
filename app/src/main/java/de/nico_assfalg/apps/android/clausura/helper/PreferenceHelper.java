@@ -1,8 +1,10 @@
-package de.nico_assfalg.apps.android.clausura;
+package de.nico_assfalg.apps.android.clausura.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
 
 public abstract class PreferenceHelper {
 

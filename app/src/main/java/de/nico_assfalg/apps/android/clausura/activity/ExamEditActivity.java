@@ -1,4 +1,4 @@
-package de.nico_assfalg.apps.android.clausura;
+package de.nico_assfalg.apps.android.clausura.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -7,8 +7,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -23,6 +21,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+
+import de.nico_assfalg.apps.android.clausura.time.Date;
+import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
+import de.nico_assfalg.apps.android.clausura.R;
 
 public class ExamEditActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {

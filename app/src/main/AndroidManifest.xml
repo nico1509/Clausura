@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -25,22 +25,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExamEditActivity"
+            android:name=".activity.ExamEditActivity"
             android:label="@string/title_activity_exam_edit"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.nico_assfalg.apps.android.clausura.ExamEditActivity" />
+                android:value="de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity" />
         </activity>
         <activity
-            android:name=".BackupRestoreActivity"
+            android:name=".activity.BackupRestoreActivity"
             android:label="@string/title_activity_backup_restore"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.nico_assfalg.apps.android.clausura.MainActivity" />
+                android:value="de.nico_assfalg.apps.android.clausura.activity.MainActivity" />
         </activity>
     </application>
 
