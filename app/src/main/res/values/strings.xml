@@ -132,4 +132,8 @@
     <string name="text_yesterday">Gestern</string>
     <string name="text_x_days_ago">Vor %1$d Tagen</string>
     <string name="text_in_x_days">In %1$d Tagen</string>
+    <string name="text_copyright">© 2016 Nico Assfalg</string>
+    <string name="button_update">Update suchen</string>
+    <string name="button_close">Schließen</string>
+    <string name="button_license">Lizenz</string>
 </resources>

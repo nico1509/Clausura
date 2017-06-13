@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -319,6 +321,57 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     }
+
+    private void showInfoDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_update);
+
+        Button closeButton = (Button) findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        Button updateButton = (Button) findViewById(R.id.updateButton);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
+                                + getVersion()));
+                startActivity(browserIntent);
+                dialog.dismiss();
+            }
+        });
+
+        Button licenseButton = (Button) findViewById(R.id.licenseButton);
+        licenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://git.scc.kit.edu/uberq/Clausura/blob/master/LICENSE"));
+                startActivity(browserIntent);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private String getVersion() {
+        PackageInfo pInfo;
+        String version = "ERROR";
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
+    }
     /*
 
                 OLD SHIT
@@ -353,15 +406,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement  //TODO: Ein kleines Fensterchen machen
         if (id == R.id.action_info) {
-            Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), "© 2016 Nico Assfalg", Snackbar.LENGTH_SHORT);
-            snackbar.setAction("UPDATE", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.nico-assfalg.de/clausura_2-4.html"));
-                    startActivity(browserIntent);
-                }
-            });
-            snackbar.show();
+            showInfoDialog();
             return true;
         }
 
