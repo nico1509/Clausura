@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_update);
 
-        Button closeButton = (Button) findViewById(R.id.closeButton);
+        Button closeButton = (Button) dialog.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button updateButton = (Button) findViewById(R.id.updateButton);
+        Button updateButton = (Button) dialog.findViewById(R.id.updateButton);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button licenseButton = (Button) findViewById(R.id.licenseButton);
+        Button licenseButton = (Button) dialog.findViewById(R.id.licenseButton);
         licenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
