@@ -8,7 +8,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -339,10 +341,14 @@ public class MainActivity extends AppCompatActivity
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
-                                + getVersion()));
-                startActivity(browserIntent);
+                String url = "https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
+                        + getVersion();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    builder.setToolbarColor(getColor(R.color.colorPrimary));
+                }
+                CustomTabsIntent intent = builder.build();
+                intent.launchUrl(MainActivity.this, Uri.parse(url));
                 dialog.dismiss();
             }
         });
