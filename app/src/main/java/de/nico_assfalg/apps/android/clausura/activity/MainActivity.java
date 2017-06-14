@@ -347,17 +347,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button licenseButton = (Button) dialog.findViewById(R.id.licenseButton);
-        licenseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://git.scc.kit.edu/uberq/Clausura/blob/master/LICENSE"));
-                startActivity(browserIntent);
-                dialog.dismiss();
-            }
-        });
-
         dialog.show();
     }
 
