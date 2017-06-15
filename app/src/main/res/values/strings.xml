@@ -155,4 +155,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </string>
     <string name="text_about_headline">Info</string>
+    <string name="shortcut_add_short">Neue Klausur</string>
+    <string name="shortcut_add_long">Eine neue Klausur hinzufügen</string>
+    <string name="shortcut_add_disabled">Hinzufügen nicht möglich!</string>
 </resources>
