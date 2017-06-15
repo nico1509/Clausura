@@ -30,13 +30,14 @@
             android:name=".activity.ExamEditActivity"
             android:label="@string/title_activity_exam_edit"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity" />
+                android:value="de.nico_assfalg.apps.android.clausura.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.BackupRestoreActivity"

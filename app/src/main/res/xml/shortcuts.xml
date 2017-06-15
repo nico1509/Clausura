@@ -10,8 +10,8 @@
         android:shortcutDisabledMessage="@string/shortcut_add_disabled">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="de.nico_assfalg.apps.android.clausura.activity"
-            android:targetClass=".ExamEditActivity">
+            android:targetPackage="de.nico_assfalg.apps.android.clausura"
+            android:targetClass="de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity">
             <extra
                 android:name="KEY_EXTRA_EXAM_ID"
                 android:value="0"/>
