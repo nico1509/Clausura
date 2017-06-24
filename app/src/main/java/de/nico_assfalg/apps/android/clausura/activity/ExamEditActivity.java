@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -270,9 +271,15 @@ public class ExamEditActivity extends AppCompatActivity
             }
         } else {
             if (examTitle.equals("") || examDate.equals("")) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Fehler, Es müssen mindestens Titel und Datum eingetragen sein!", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.TOP|Gravity.RIGHT, 0, 0);
-                toast.show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    editTitle.setHintTextColor(getColor(R.color.colorOrange));
+                    editDate.setHintTextColor(getColor(R.color.colorOrange));
+                } else {
+                    editTitle.setHintTextColor(getResources().getColor(R.color.colorOrange));
+                    editDate.setHintTextColor(getResources().getColor(R.color.colorOrange));
+                }
+                Snackbar snackbar = Snackbar.make(editTitle, "Es müssen mindestens Titel und Datum eingetragen sein!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
             } else {
                 if (dbHelper.insertExam(examTitle, examDate, examTime, examLocation, examNotes)) {
                     //Toast.makeText(getApplicationContext(), "Klausur hinzugefügt!", Toast.LENGTH_SHORT).show();
