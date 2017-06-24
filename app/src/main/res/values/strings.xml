@@ -158,4 +158,5 @@ SOFTWARE.
     <string name="shortcut_add_short">Neue Klausur</string>
     <string name="shortcut_add_long">Eine neue Klausur hinzufügen</string>
     <string name="shortcut_add_disabled">Hinzufügen nicht möglich!</string>
+    <string name="text_logo_credit">Logo von Niklas Braun</string>
 </resources>
