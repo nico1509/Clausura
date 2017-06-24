@@ -253,7 +253,7 @@ public class BackupRestoreActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 if (intentFinal != null) {
-                    //startActivity(intentFinal);
+                    startActivity(intentFinal);
                     finish();
                 }
             }
