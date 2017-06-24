@@ -63,11 +63,17 @@ public class BackupRestoreActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initializeButtons();
         backToMainIntent = new Intent(BackupRestoreActivity.this, MainActivity.class);
         setTitle(getString(R.string.title_activity_backup_restore));
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(backToMainIntent);
+        finish();
     }
 
     private void initializeButtons() {
