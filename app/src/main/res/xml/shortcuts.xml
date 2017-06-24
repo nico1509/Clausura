@@ -4,7 +4,7 @@
     <shortcut
         android:shortcutId="add"
         android:enabled="true"
-        android:icon="@drawable/ic_create_black_24dp"
+        android:icon="@drawable/ic_shortcut_create"
         android:shortcutShortLabel="@string/shortcut_add_short"
         android:shortcutLongLabel="@string/shortcut_add_long"
         android:shortcutDisabledMessage="@string/shortcut_add_disabled">
