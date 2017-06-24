@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import java.util.Calendar;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
 import de.nico_assfalg.apps.android.clausura.R;
+
+import static android.view.View.GONE;
 
 public class ExamEditActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -58,6 +61,7 @@ public class ExamEditActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getSupportActionBar().setTitle("");
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
@@ -83,13 +87,21 @@ public class ExamEditActivity extends AppCompatActivity
         LayoutInflater inflater = getLayoutInflater();
         LinearLayout tempParent = (LinearLayout) inflater.inflate(R.layout.layout_edittext_toolbar, null);
         editTitle = (EditText) tempParent.findViewById(R.id.toolbarEditText);
+        tempParent.removeAllViews();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             editTitle.setHintTextColor(getColor(R.color.colorWhiteAlpha));
         } else {
             editTitle.setHintTextColor(getResources().getColor(R.color.colorWhiteAlpha));
         }
-        tempParent.removeAllViews();
-        titleToolbar.addView(editTitle);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            titleToolbar.setVisibility(View.VISIBLE);
+            titleToolbar.addView(editTitle);
+        } else {
+            titleToolbar.setVisibility(View.GONE);
+            getSupportActionBar().setDisplayShowCustomEnabled(true);
+            getSupportActionBar().setCustomView(editTitle);
+        }
 
         editDate = (EditText) findViewById(R.id.editDate);
         editDate.setOnTouchListener(new View.OnTouchListener() {
