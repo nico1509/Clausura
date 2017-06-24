@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:imeOptions="flagNoExtractUi"
         android:id="@+id/toolbarEditText"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="match_parent"

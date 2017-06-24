@@ -74,6 +74,7 @@
                 tools:layout_editor_absoluteX="8dp" />
 
             <EditText
+                android:imeOptions="flagNoExtractUi"
                 android:id="@+id/editDate"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
@@ -94,6 +95,7 @@
                 android:layout_marginEnd="8dp" />
 
             <EditText
+                android:imeOptions="flagNoExtractUi"
                 android:id="@+id/editTime"
                 android:layout_width="100dp"
                 android:layout_height="56dp"
@@ -122,6 +124,7 @@
                 android:layout_marginEnd="8dp" />
 
             <EditText
+                android:imeOptions="flagNoExtractUi"
                 android:id="@+id/editLocation"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
