@@ -122,8 +122,8 @@
     <string name="hint_title">Titel</string>
     <string name="hint_date">Datum</string>
     <string name="hint_time">Uhrzeit</string>
-    <string name="hint_location">Ort</string>
-    <string name="hint_notes">Notizen</string>
+    <string name="hint_location">Ort hinzufügen</string>
+    <string name="hint_notes">Notiz hinzufügen</string>
     <string name="button_delete">Entfernen</string>
     <string name="button_edit">Bearbeiten</string>
     <string name="text_end_of_lecture">Ende der Vorlesungszeit</string>

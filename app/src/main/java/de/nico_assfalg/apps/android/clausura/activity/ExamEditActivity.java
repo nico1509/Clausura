@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -58,6 +59,7 @@ public class ExamEditActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         //EditText in Title
         titleToolbar = (Toolbar) findViewById(R.id.titleToolbar);
@@ -81,6 +83,11 @@ public class ExamEditActivity extends AppCompatActivity
         LayoutInflater inflater = getLayoutInflater();
         LinearLayout tempParent = (LinearLayout) inflater.inflate(R.layout.layout_edittext_toolbar, null);
         editTitle = (EditText) tempParent.findViewById(R.id.toolbarEditText);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            editTitle.setHintTextColor(getColor(R.color.colorWhiteAlpha));
+        } else {
+            editTitle.setHintTextColor(getResources().getColor(R.color.colorWhiteAlpha));
+        }
         tempParent.removeAllViews();
         titleToolbar.addView(editTitle);
 
