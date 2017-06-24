@@ -13,8 +13,10 @@
         android:id="@+id/monthYearText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
+        android:paddingTop="16dp"
         android:text="monthYearText"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
