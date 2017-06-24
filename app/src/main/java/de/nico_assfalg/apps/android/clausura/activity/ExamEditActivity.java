@@ -11,12 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -40,6 +42,8 @@ public class ExamEditActivity extends AppCompatActivity
     ExamDBHelper dbHelper;
     Cursor rs;
 
+    Toolbar titleToolbar;
+
     EditText editTitle;
     EditText editDate;
     EditText editTime;
@@ -53,6 +57,10 @@ public class ExamEditActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
+        //EditText in Title
+        titleToolbar = (Toolbar) findViewById(R.id.titleToolbar);
 
         dbHelper = new ExamDBHelper(this);
 
@@ -62,16 +70,20 @@ public class ExamEditActivity extends AppCompatActivity
         if (id > 0) {
             rs = dbHelper.getExam(id);
             rs.moveToFirst();
-        } else {
-            setTitle("Hinzufügen");
         }
+
         initializeStrings();
         initializeEditTexts();
         setTextOfEditTexts();
     }
 
     private void initializeEditTexts() {
-        editTitle = (EditText) findViewById(R.id.editTitle);
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout tempParent = (LinearLayout) inflater.inflate(R.layout.layout_edittext_toolbar, null);
+        editTitle = (EditText) tempParent.findViewById(R.id.toolbarEditText);
+        tempParent.removeAllViews();
+        titleToolbar.addView(editTitle);
+
         editDate = (EditText) findViewById(R.id.editDate);
         editDate.setOnTouchListener(new View.OnTouchListener() {
             @Override
