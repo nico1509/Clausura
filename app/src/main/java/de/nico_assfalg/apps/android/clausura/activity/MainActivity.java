@@ -71,7 +71,11 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //ImageView in ActionBar
-        getSupportActionBar().setIcon(R.drawable.clausitesticon);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.clausura_appbar_icon));
+        } else {
+            getSupportActionBar().setIcon(R.drawable.clausura_appbar_icon);
+        }
         getSupportActionBar().setTitle("");
 
         //Initialize FAB
