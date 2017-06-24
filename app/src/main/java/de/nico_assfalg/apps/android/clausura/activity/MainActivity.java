@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
@@ -36,6 +37,7 @@ import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
 import de.nico_assfalg.apps.android.clausura.R;
 
 import static de.nico_assfalg.apps.android.clausura.R.id.coordinatorLayout;
+import static de.nico_assfalg.apps.android.clausura.R.id.examList;
 
 public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
@@ -132,13 +134,13 @@ public class MainActivity extends AppCompatActivity
                     Date now = new Date(Calendar.getInstance());
                     if (now.toMs() <= exDate.toMs()) {
                         //Add Month/Year label if necessary
-                        addMonthYearLabel(date);
+                        addMonthYearLabel(date, id);
                         //Make Exam Element and add it to the List
                         examList.addView(examElement(title, date, time, id));
                     }
                 } else {
                     //Add Month/Year label if necessary
-                    addMonthYearLabel(date);
+                    addMonthYearLabel(date, id);
                     //Make Exam Element and add it to the List
                     examList.addView(examElement(title, date, time, id));
                 }
@@ -235,17 +237,20 @@ public class MainActivity extends AppCompatActivity
         return examLayout;
     }
 
-    private void addMonthYearLabel(String date) {
+    private void addMonthYearLabel(String date, int id) {
         Date currentDate = new Date(date);
         final LinearLayout monthYearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.layout_month_year_label, null, false);
         if (tempDate.getMonth() < currentDate.getMonth() && tempDate.getYear() == currentDate.getYear()) {
             TextView monthYearText = (TextView) monthYearLayout.findViewById(R.id.monthYearText);
-            monthYearText.setText(currentDate.getMonthAsString());
+            String text = currentDate.getMonthAsString();
+            monthYearText.setText(text);
+            monthYearText.setTag(text);
             examList.addView(monthYearLayout);
         } else if (tempDate.getYear() < currentDate.getYear()) {
             TextView monthYearText = (TextView) monthYearLayout.findViewById(R.id.monthYearText);
-            String monthYear = currentDate.getMonthAsString() + " " + currentDate.getYear();
-            monthYearText.setText(monthYear);
+            String text = currentDate.getMonthAsString() + " " + currentDate.getYear();
+            monthYearText.setText(text);
+            monthYearText.setTag(text);
             examList.addView(monthYearLayout);
         }
         tempDate = currentDate;
@@ -309,10 +314,7 @@ public class MainActivity extends AppCompatActivity
             examDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ExamDBHelper db = new ExamDBHelper(v.getContext());
-                    db.deleteExam(v.getId());
-                    examList.removeAllViews();
-                    populate();
+                    deleteExam(v);
                     dialog.dismiss();
                 }
             });
@@ -320,6 +322,37 @@ public class MainActivity extends AppCompatActivity
             dialog.show();
         } else {
             cursor.close();
+        }
+    }
+
+    private void deleteExam(View v) {
+        Cursor examToDelete = dbHelper.getExam(v.getId());
+        examToDelete.moveToFirst();
+        Date examDate = new Date(examToDelete.getString(examToDelete
+                .getColumnIndex(ExamDBHelper.EXAM_COLUMN_DATE)));
+        int examMonth = examDate.getMonth();
+        int examYear = examDate.getYear();
+        Cursor cursor = dbHelper.getAllExams();
+
+        int examIndex = examList.indexOfChild(v);
+
+        dbHelper.deleteExam(v.getId());
+        examList.removeView(v);
+
+        boolean sameMonthInYear = false;
+        if (cursor.moveToFirst()) {
+            while (cursor.moveToNext() && !sameMonthInYear) {
+                Date date = new Date(cursor.getString(cursor.
+                        getColumnIndex(ExamDBHelper.EXAM_COLUMN_DATE)));
+                int month = date.getMonth();
+                int year = date.getYear();
+
+                sameMonthInYear = (month == examMonth) && (year == examYear);
+            }
+        }
+
+        if (!sameMonthInYear) {
+            examList.removeViewAt(examIndex - 1);
         }
     }
 
