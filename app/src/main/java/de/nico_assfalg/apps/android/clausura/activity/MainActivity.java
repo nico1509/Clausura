@@ -186,6 +186,12 @@ public class MainActivity extends AppCompatActivity
                 noExams.setText(getString(R.string.text_no_exams_past));
 
                 Button showPastButton = (Button) ll.findViewById(R.id.showPastButton);
+                showPastButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showPast(true);
+                    }
+                });
                 if (pastExamCounter == 1) {
                     showPastButton.setText(getString(R.string.button_show_past_singular));
                 } else {
@@ -388,7 +394,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         boolean sameMonthInYear = false;
-        boolean allInPast = true;
+        boolean allInPast = !pastAllowed();
 
         if (cursor.moveToFirst()) {
             while (cursor.moveToNext() && !sameMonthInYear) {
@@ -492,6 +498,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void showPast(boolean enabled) {
+        if (!enabled) {
+            PreferenceHelper.setPreference(getApplicationContext(), "0", "showPast");
+            examList.removeAllViews();
+            populate();
+            Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), "Vergangene Termine werden ausgeblendet.", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        } else {
+            PreferenceHelper.setPreference(getApplicationContext(), "1", "showPast");
+            examList.removeAllViews();
+            populate();
+            Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), "Vergangene Termine werden angezeigt.", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -507,19 +529,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.action_past) { //showPast € {0,1,epsilon}
             if (item.isChecked()) {
-                PreferenceHelper.setPreference(getApplicationContext(), "0", "showPast");
-                examList.removeAllViews();
-                populate();
-                item.setChecked(false);
-                Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), "Vergangene Termine werden ausgeblendet.", Snackbar.LENGTH_LONG);
-                snackbar.show();
+                showPast(false);
             } else {
-                PreferenceHelper.setPreference(getApplicationContext(), "1", "showPast");
-                examList.removeAllViews();
-                populate();
-                item.setChecked(true);
-                Snackbar snackbar = Snackbar.make(findViewById(coordinatorLayout), "Vergangene Termine werden angezeigt.", Snackbar.LENGTH_LONG);
-                snackbar.show();
+                showPast(true);
             }
         }
 
