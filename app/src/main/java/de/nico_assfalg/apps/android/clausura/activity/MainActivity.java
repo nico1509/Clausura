@@ -134,13 +134,13 @@ public class MainActivity extends AppCompatActivity
                     Date now = new Date(Calendar.getInstance());
                     if (now.toMs() <= exDate.toMs()) {
                         //Add Month/Year label if necessary
-                        addMonthYearLabel(date, id);
+                        addMonthYearLabel(date);
                         //Make Exam Element and add it to the List
                         examList.addView(examElement(title, date, time, id));
                     }
                 } else {
                     //Add Month/Year label if necessary
-                    addMonthYearLabel(date, id);
+                    addMonthYearLabel(date);
                     //Make Exam Element and add it to the List
                     examList.addView(examElement(title, date, time, id));
                 }
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity
         return examLayout;
     }
 
-    private void addMonthYearLabel(String date, int id) {
+    private void addMonthYearLabel(String date) {
         Date currentDate = new Date(date);
         final LinearLayout monthYearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.layout_month_year_label, null, false);
         if (tempDate.getMonth() < currentDate.getMonth() && tempDate.getYear() == currentDate.getYear()) {
