@@ -169,18 +169,30 @@ public class MainActivity extends AppCompatActivity
         if (allExamCounter < 1) {
             LinearLayout ll = (LinearLayout) getLayoutInflater()
                     .inflate(R.layout.layout_no_exam_text, null);
+
             TextView noExams = (TextView) ll.findViewById(R.id.noExamText);
             noExams.setText(getString(R.string.text_no_exams));
-            ll.removeAllViews();
-            examList.addView(noExams);
+
+            Button showPastButton = (Button) ll.findViewById(R.id.showPastButton);
+            showPastButton.setVisibility(View.GONE);
+
+            examList.addView(ll);
         } else {
             if (pastExamCounter >= allExamCounter && allExamCounter > 0) {
                 LinearLayout ll = (LinearLayout) getLayoutInflater()
                         .inflate(R.layout.layout_no_exam_text, null);
+
                 TextView noExams = (TextView) ll.findViewById(R.id.noExamText);
-                noExams.setText(getString(R.string.text_no_exams_past, pastExamCounter));
-                ll.removeAllViews();
-                examList.addView(noExams);
+                noExams.setText(getString(R.string.text_no_exams_past));
+
+                Button showPastButton = (Button) ll.findViewById(R.id.showPastButton);
+                if (pastExamCounter == 1) {
+                    showPastButton.setText(getString(R.string.button_show_past_singular));
+                } else {
+                    showPastButton.setText(getString(R.string.button_show_past_plural, pastExamCounter));
+                }
+
+                examList.addView(ll);
             }
         }
     }
