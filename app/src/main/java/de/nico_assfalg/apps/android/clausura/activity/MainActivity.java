@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity
 
     private LinearLayout examList;
     ExamDBHelper dbHelper;
+
+    private int allExamCounter;
+    private int pastExamCounter;
 
     static String lectureEndDate;
 
@@ -122,6 +126,8 @@ public class MainActivity extends AppCompatActivity
         final Cursor cursor = dbHelper.getAllExams();
 
         if (cursor.moveToFirst()) {
+            allExamCounter = 0;
+            pastExamCounter = 0;
             while (!cursor.isAfterLast()) {
                 //Get exam Title, Date and _id
                 String title = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TITLE));
@@ -137,6 +143,8 @@ public class MainActivity extends AppCompatActivity
                         addMonthYearLabel(date);
                         //Make Exam Element and add it to the List
                         examList.addView(examElement(title, date, time, id));
+                    } else {
+                        pastExamCounter++;
                     }
                 } else {
                     //Add Month/Year label if necessary
@@ -144,14 +152,37 @@ public class MainActivity extends AppCompatActivity
                     //Make Exam Element and add it to the List
                     examList.addView(examElement(title, date, time, id));
                 }
+                allExamCounter++;
                 cursor.moveToNext();
             }
         }
         cursor.close(); //Important!
 
-        Space downMargin = new Space(this);
+        addNoExamText();
+
+        /*Space downMargin = new Space(this);
         downMargin.setMinimumHeight(80);
-        examList.addView(downMargin);
+        examList.addView(downMargin);*/
+    }
+
+    private void addNoExamText() {
+        if (allExamCounter < 1) {
+            LinearLayout ll = (LinearLayout) getLayoutInflater()
+                    .inflate(R.layout.layout_no_exam_text, null);
+            TextView noExams = (TextView) ll.findViewById(R.id.noExamText);
+            noExams.setText(getString(R.string.text_no_exams));
+            ll.removeAllViews();
+            examList.addView(noExams);
+        } else {
+            if (pastExamCounter >= allExamCounter && allExamCounter > 0) {
+                LinearLayout ll = (LinearLayout) getLayoutInflater()
+                        .inflate(R.layout.layout_no_exam_text, null);
+                TextView noExams = (TextView) ll.findViewById(R.id.noExamText);
+                noExams.setText(getString(R.string.text_no_exams_past, pastExamCounter));
+                ll.removeAllViews();
+                examList.addView(noExams);
+            }
+        }
     }
 
     private void initLectureEnd() {
@@ -339,7 +370,14 @@ public class MainActivity extends AppCompatActivity
         dbHelper.deleteExam(v.getId());
         examList.removeView(v);
 
+        allExamCounter--;
+        if (new Date(Calendar.getInstance()).toMs() > examDate.toMs()) {
+            pastExamCounter--;
+        }
+
         boolean sameMonthInYear = false;
+        boolean allInPast = true;
+
         if (cursor.moveToFirst()) {
             while (cursor.moveToNext() && !sameMonthInYear) {
                 Date date = new Date(cursor.getString(cursor.
@@ -348,12 +386,20 @@ public class MainActivity extends AppCompatActivity
                 int year = date.getYear();
 
                 sameMonthInYear = (month == examMonth) && (year == examYear);
+
+                Date current = new Date(Calendar.getInstance());
+
+                if (allInPast && month == current.getMonth()) {
+                    allInPast = (month == examMonth) && (date.toMs() < current.toMs());
+                }
             }
         }
 
-        if (!sameMonthInYear) {
+        if (!sameMonthInYear || allInPast) {
             examList.removeViewAt(examIndex - 1);
         }
+
+        addNoExamText();
     }
 
     private boolean pastAllowed() {

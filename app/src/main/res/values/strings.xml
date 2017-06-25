@@ -159,4 +159,6 @@ SOFTWARE.
     <string name="shortcut_add_long">Eine neue Klausur hinzufügen</string>
     <string name="shortcut_add_disabled">Hinzufügen nicht möglich!</string>
     <string name="text_logo_credit">Logo von Niklas Braun</string>
+    <string name="text_no_exams">Willkommen bei Clausura. \nTrage jetzt deine erste Klausur ein!</string>
+    <string name="text_no_exams_past">Keine Klausuren zum Anzeigen vorhanden. \nDu kannst oben im Menü die %1$d vergangenen Termine anzeigen!</string>
 </resources>
