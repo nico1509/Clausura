@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -240,6 +241,11 @@ public class BackupRestoreActivity extends AppCompatActivity {
             });
 
             fileListLayout.addView(backupLayout);
+
+            //Set Width to match_parent
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
             dialog.show();
         }
     }
@@ -264,6 +270,10 @@ public class BackupRestoreActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Set Width to match_parent
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
 
         dialog.show();
     }
