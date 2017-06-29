@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.Space;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
@@ -39,7 +36,6 @@ import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
 import de.nico_assfalg.apps.android.clausura.R;
 
 import static de.nico_assfalg.apps.android.clausura.R.id.coordinatorLayout;
-import static de.nico_assfalg.apps.android.clausura.R.id.examList;
 
 public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
@@ -313,7 +309,7 @@ public class MainActivity extends AppCompatActivity
         if (cursor.moveToFirst()) {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.layout_exam_details);
+            dialog.setContentView(R.layout.dialog_exam_details);
             dialog.setTitle("Details");
 
             TextView titleLineText = (TextView) dialog.findViewById(R.id.titleLineText);
