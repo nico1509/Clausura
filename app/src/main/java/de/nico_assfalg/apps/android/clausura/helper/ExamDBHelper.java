@@ -75,7 +75,7 @@ public class ExamDBHelper extends SQLiteOpenHelper {
 
     public Cursor getAllExams() { //sorted by date!
         SQLiteDatabase db = getReadableDatabase();
-        Cursor res = db.rawQuery( "SELECT * FROM " + EXAM_TABLE_NAME + " ORDER BY " + EXAM_COLUMN_DATE, null);
+        Cursor res = db.rawQuery( "SELECT * FROM " + EXAM_TABLE_NAME + " ORDER BY " + EXAM_COLUMN_DATE + "," + EXAM_COLUMN_TIME, null);
         return res;
     }
 
