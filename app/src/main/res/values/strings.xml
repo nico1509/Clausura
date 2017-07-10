@@ -102,7 +102,7 @@
     <string name="button_backup">Sichern</string>
     <string name="button_restore">Wiederherstellen</string>
     <string name="text_backup_info">"Hier kannst Du eine Sicherungskopie aller Termine"
-        "anlegen.\n\nDie Daten werden im Ordner \"Documents\\Clausura\" gespeichert. \nVon dort"
+        "anlegen.\n\nDie Daten werden im Ordner \n\"Documents\\Clausura\" gespeichert. \nVon dort"
         "aus kannst Du sie z.B. auf ein anderes Gerät kopieren. \n\nDafür"
         "muss Clausura auf Deinen Speicher zureifen dürfen!"
     </string>
