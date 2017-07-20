@@ -2,6 +2,10 @@ package de.nico_assfalg.apps.android.clausura.time;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+
 import java.util.Calendar;
 
 import de.nico_assfalg.apps.android.clausura.R;
@@ -11,9 +15,12 @@ import static java.lang.Math.abs;
 public abstract class Calculator {
 
     public static int daysUntil(Date date) {
-        Date current = new Date(Calendar.getInstance());
-        long distance = date.toMs() - current.toMs();
-        return (int) (distance / 1000 / 86400); //convert ms to days
+        LocalDate now = new LocalDate()
+                .toDateTimeAtStartOfDay().toLocalDate();
+        LocalDate then = new LocalDate(date.getYear(), date.getMonth(), date.getDay())
+                .toDateTimeAtStartOfDay().toLocalDate();
+        Days daysUntil = Days.daysBetween(now, then);
+        return daysUntil.getDays();
     }
 
     public static String daysUntilAsString(Date date, Context c) {
