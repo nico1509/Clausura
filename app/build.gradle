@@ -41,4 +41,7 @@ dependencies {
     //Chrome Custom Tabs
     compile 'com.android.support:customtabs:25.3.1'
 
+    //Joda-Time
+    compile 'joda-time:joda-time:2.9.9'
+
 }
