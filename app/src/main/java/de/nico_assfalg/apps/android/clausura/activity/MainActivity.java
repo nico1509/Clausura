@@ -3,13 +3,20 @@ package de.nico_assfalg.apps.android.clausura.activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +34,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
@@ -49,10 +61,13 @@ public class MainActivity extends AppCompatActivity
     private int pastExamCounter;
 
     static String lectureEndDate;
+    private LinearLayout lectureEndLayout;
 
     final String SEPARATOR = "  ·  ";
 
     Date tempDate; //needed for monthYear labels
+
+    ConstraintLayout updateCard;
 
     //OLD SHIT
     private static final int PERMISSION_REQUEST_ID_EXTERNAL_STORAGE = 42;
@@ -89,22 +104,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        /*TODO: remove!!!
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                doBackupMode(MainActivity.BACKUP_RESTORE);
-                PreferenceHelper.setPreference(getApplicationContext(), "", PreferenceHelper.IMPORT_SUCCESSFUL);
-                PreferenceHelper.importOldSettings(getApplicationContext());
-                return true;
-            }
-        });*/
-
         PreferenceHelper.importOldSettings(getApplicationContext());
 
         examList = (LinearLayout) findViewById(R.id.examList);
         examList.removeAllViews();
         populate();
+
+        checkForUpdate();
     }
 
     /*
@@ -201,7 +207,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initLectureEnd() {
-        LinearLayout lectureEndLayout = (LinearLayout) findViewById(R.id.lectureEndLayout);
+        lectureEndLayout = (LinearLayout) findViewById(R.id.lectureEndLayout);
         final LinearLayout lectureEnd = (LinearLayout) lectureEndLayout.findViewById(R.id.examLayout);
         ImageButton showHideButton = (ImageButton) lectureEndLayout.findViewById(R.id.showHideLectureEndButton);
         if (PreferenceHelper.getPreference(this, "showLectureEnd").equals("0")) {
@@ -478,6 +484,87 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         return version;
+    }
+
+    public void showUpdateCard(String version) {
+        updateCard = (ConstraintLayout) lectureEndLayout.findViewById(R.id.updateCard);
+
+        TextView updateVersionText = (TextView) updateCard.findViewById(R.id.updateVersionText);
+        updateVersionText.setText(getString(R.string.text_version) + " " + version);
+
+        Button updateDownloadButton = (Button) updateCard.findViewById(R.id.updateDownloadButton);
+        updateDownloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
+                        + getVersion();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    builder.setToolbarColor(getColor(R.color.colorPrimary));
+                }
+                CustomTabsIntent intent = builder.build();
+                intent.launchUrl(MainActivity.this, Uri.parse(url));
+            }
+        });
+
+        updateCard.setVisibility(View.VISIBLE);
+    }
+
+    private void checkForUpdate() {
+        if (!checkWifiOnAndConnected()) {
+            return;
+        }
+        AsyncTask<String, Integer, String> checkerTask = new AsyncTask<String, Integer, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                URL versionUrl = null;
+                try {
+                    versionUrl = new URL("http://clausura.nico-assfalg.de/version.php?thisversion=" + getVersion());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+                BufferedReader in = null;
+                try {
+                    in = new BufferedReader(new InputStreamReader(versionUrl.openStream()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String version;
+                try {
+                    if ((version = in.readLine()) != null)
+                        return version;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "0";
+            }
+
+            @Override
+            protected void onPostExecute(String updateVersion) {
+                if (!updateVersion.equals("\uFEFF0")) {
+                    showUpdateCard(updateVersion);
+                }
+            }
+        }.execute(getVersion());
+    }
+
+    private boolean checkWifiOnAndConnected() {
+        WifiManager wifiMgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiMgr.isWifiEnabled()) { // Wi-Fi adapter is ON
+
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+
+            if( wifiInfo.getNetworkId() == -1 ){
+                return false; // Not connected to an access point
+            }
+            return true; // Connected to an access point
+        }
+        else {
+            return false; // Wi-Fi adapter is OFF
+        }
     }
     /*
 

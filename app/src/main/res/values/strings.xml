@@ -163,4 +163,7 @@ SOFTWARE.
     <string name="text_no_exams_past">Keine Klausuren zum Anzeigen vorhanden.</string>
     <string name="button_show_past_plural">%1$d vergangene Termine zeigen</string>
     <string name="button_show_past_singular">Vergangenen Termin zeigen</string>
+    <string name="text_update_available">Update verfügbar!</string>
+    <string name="button_download">Herunterladen</string>
+    <string name="text_version">Version</string>
 </resources>
