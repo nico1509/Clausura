@@ -519,7 +519,7 @@ public class MainActivity extends AppCompatActivity
             protected String doInBackground(String... params) {
                 URL versionUrl = null;
                 try {
-                    versionUrl = new URL("http://clausura.nico-assfalg.de/version.php?thisversion=" + getVersion());
+                    versionUrl = new URL("http://clausura.nico-assfalg.de/version.php?thisversion=" + params[0]);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -538,12 +538,12 @@ public class MainActivity extends AppCompatActivity
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return "0";
+                return "NOPE";
             }
 
             @Override
             protected void onPostExecute(String updateVersion) {
-                if (!updateVersion.equals("\uFEFF0")) {
+                if (!updateVersion.contains("NOPE")) {
                     showUpdateCard(updateVersion);
                 }
             }
