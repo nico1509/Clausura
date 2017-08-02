@@ -2,6 +2,8 @@ package de.nico_assfalg.apps.android.clausura.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
@@ -11,6 +13,7 @@ public abstract class PreferenceHelper {
     private static SharedPreferences settings;
     private static SharedPreferences.Editor editor;
     public static final String IMPORT_SUCCESSFUL = "importSuccess";
+    public static final String PINNED_DATE_TITLE = "pinnedDateTitle";
 
     /*
     Saving Strings to SharedPreferences
@@ -70,6 +73,18 @@ public abstract class PreferenceHelper {
         year = parts[2];
 
         return year + "-" + month + "-" + day;
+    }
+
+    public static String getAppVersion(Context context) {
+        PackageInfo pInfo;
+        String version = "ERROR";
+        try {
+            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            version = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
     }
 
 

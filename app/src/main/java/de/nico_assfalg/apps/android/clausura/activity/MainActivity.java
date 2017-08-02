@@ -113,6 +113,22 @@ public class MainActivity extends AppCompatActivity
         checkForUpdate();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        examList = (LinearLayout) findViewById(R.id.examList);
+        examList.removeAllViews();
+        populate();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        examList = (LinearLayout) findViewById(R.id.examList);
+        examList.removeAllViews();
+        populate();
+    }
+
     /*
 
                 LAYOUT
@@ -213,6 +229,9 @@ public class MainActivity extends AppCompatActivity
         if (PreferenceHelper.getPreference(this, "showLectureEnd").equals("0")) {
             lectureEnd.setVisibility(View.GONE);
             showHideButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_down_black_24dp));
+        } else {
+            lectureEnd.setVisibility(View.VISIBLE);
+            showHideButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_up_black_24dp));
         }
         lectureEnd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,12 +241,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
         TextView titleText = (TextView) lectureEnd.findViewById(R.id.examTitle);
-        titleText.setText(getString(R.string.text_end_of_lecture));
+        String text = PreferenceHelper.getPreference(getApplicationContext(),
+                PreferenceHelper.PINNED_DATE_TITLE);
+        if (text.equals("")) {
+            text = getString(R.string.text_end_of_lecture);
+            PreferenceHelper.setPreference(this, text,
+                    PreferenceHelper.PINNED_DATE_TITLE);
+        }
+        titleText.setText(text);
         TextView daysUntil = (TextView) lectureEnd.findViewById(R.id.examDaysUntil);
         lectureEndDate = PreferenceHelper.getPreference(this, "endOfLectureDate");
         if (lectureEndDate.equals("")) {
             Date current = new Date(Calendar.getInstance());
             lectureEndDate = current.toString();
+            PreferenceHelper.setPreference(this, lectureEndDate, "endOfLectureDate");
         }
         Date date = new Date(lectureEndDate);
         String dateAndUntil = date.toHumanString() + SEPARATOR + Calculator.daysUntilAsString(date, this);
@@ -438,54 +465,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void showInfoDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_update);
-
-        Button closeButton = (Button) dialog.findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        Button updateButton = (Button) dialog.findViewById(R.id.updateButton);
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String url = "https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
-                        + getVersion();
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    builder.setToolbarColor(getColor(R.color.colorPrimary));
-                }
-                CustomTabsIntent intent = builder.build();
-                intent.launchUrl(MainActivity.this, Uri.parse(url));
-                dialog.dismiss();
-            }
-        });
-
-        //Set Width to match_parent
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        dialog.show();
-    }
-
-    private String getVersion() {
-        PackageInfo pInfo;
-        String version = "ERROR";
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            version = pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return version;
-    }
-
     public void showUpdateCard(String version) {
         updateCard = (ConstraintLayout) lectureEndLayout.findViewById(R.id.updateCard);
 
@@ -497,7 +476,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 String url = "https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
-                        + getVersion();
+                        + PreferenceHelper.getAppVersion(getApplicationContext());
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     builder.setToolbarColor(getColor(R.color.colorPrimary));
@@ -547,7 +526,7 @@ public class MainActivity extends AppCompatActivity
                     showUpdateCard(updateVersion);
                 }
             }
-        }.execute(getVersion());
+        }.execute(PreferenceHelper.getAppVersion(getApplicationContext()));
     }
 
     private boolean checkWifiOnAndConnected() {
@@ -582,12 +561,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Affects the content of the options menu everytime it's displayed
-        MenuItem item = menu.findItem(R.id.action_past);
-        if (pastAllowed()) {
-            item.setChecked(true);
-        } else {
-            item.setChecked(false);
-        }
         return true;
     }
 
@@ -615,23 +588,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement  //TODO: Ein kleines Fensterchen machen
-        if (id == R.id.action_info) {
-            showInfoDialog();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
-        }
-
-        if (id == R.id.action_past) { //showPast € {0,1,epsilon}
-            if (item.isChecked()) {
-                showPast(false);
-            } else {
-                showPast(true);
-            }
         }
 
         if (id == R.id.action_backup) {
             Intent intent = new Intent(MainActivity.this, BackupRestoreActivity.class);
             startActivity(intent);
             finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
