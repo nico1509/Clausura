@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -59,28 +60,34 @@ public class SettingsActivity extends AppCompatActivity {
         ConstraintLayout layoutShowPast = (ConstraintLayout) findViewById(R.id.layoutShowPast);
         switchShowPast = (Switch) findViewById(R.id.switchShowPast);
         switchShowPast.setChecked(pastAllowed());
-        View.OnClickListener listenerShowPast = new View.OnClickListener() {
+        layoutShowPast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean pastAllowed = pastAllowed();
-                showPast(!pastAllowed);
-                setSwitch(switchShowPast, !pastAllowed);
+                switchShowPast.setChecked(!switchShowPast.isChecked());
             }
-        };
-        layoutShowPast.setOnClickListener(listenerShowPast);
-        switchShowPast.setOnClickListener(listenerShowPast);
+        });
+        switchShowPast.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                showPast(isChecked);
+            }
+        });
 
         // Show Pinned Date Setting
         ConstraintLayout layoutShowPinned = (ConstraintLayout) findViewById(R.id.layoutShowPinned);
         switchShowPinned = (Switch) findViewById(R.id.switchShowPinned);
         switchShowPinned.setChecked(pinnedAllowed());
-        View.OnClickListener listenerShowPinned = new View.OnClickListener() {
+        layoutShowPinned.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean pinnedAllowed = pinnedAllowed();
-                showPinned(!pinnedAllowed);
-                setSwitch(switchShowPinned, !pinnedAllowed);
-                if (pinnedAllowed) {
+                switchShowPinned.setChecked(!switchShowPinned.isChecked());
+            }
+        });
+        switchShowPinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                showPinned(isChecked);
+                if (!isChecked) {
                     layoutPinnedText.setVisibility(View.GONE);
                     layoutPinnedDate.setVisibility(View.GONE);
                 } else {
@@ -88,9 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
                     //layoutPinnedDate.setVisibility(View.VISIBLE);
                 }
             }
-        };
-        layoutShowPinned.setOnClickListener(listenerShowPinned);
-        switchShowPinned.setOnClickListener(listenerShowPinned);
+        });
 
         // Pinned Title Setting
         layoutPinnedText = (ConstraintLayout) findViewById(R.id.layoutPinnedText);
