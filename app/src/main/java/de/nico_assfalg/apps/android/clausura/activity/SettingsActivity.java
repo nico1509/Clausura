@@ -8,6 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -126,7 +127,16 @@ public class SettingsActivity extends AppCompatActivity {
         layoutInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInfoDialog();
+                showInfoDialog("clausura");
+            }
+        });
+
+        // About Joda-Time Dialog
+        ConstraintLayout layoutInfoJoda = (ConstraintLayout) findViewById(R.id.layoutInfoJoda);
+        layoutInfoJoda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInfoDialog("joda");
             }
         });
 
@@ -181,14 +191,14 @@ public class SettingsActivity extends AppCompatActivity {
         return date.toHumanString();
     }
 
-    private void setSwitch(Switch aSwitch, boolean checked) {
-        aSwitch.setChecked(checked);
-    }
-
-    private void showInfoDialog() {
+    private void showInfoDialog(String product) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_update);
+
+        TextView infoHeadline = (TextView) dialog.findViewById(R.id.infoHeadline);
+        TextView textLicense = (TextView) dialog.findViewById(R.id.textLicense);
+        TextView textAdditionalInfo = (TextView) dialog.findViewById(R.id.textAdditionalInfo);
 
         Button closeButton = (Button) dialog.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +223,19 @@ public class SettingsActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
+        switch (product) {
+            case "clausura":
+                infoHeadline.setText(getString(R.string.app_name) + " " + PreferenceHelper.getAppVersion(this));
+                textLicense.setText(getString(R.string.text_license));
+                textAdditionalInfo.setText(getString(R.string.text_logo_credit));
+                break;
+            case "joda":
+                infoHeadline.setText(getString(R.string.text_joda_version));
+                textLicense.setText(getString(R.string.text_license_joda));
+                textAdditionalInfo.setText(getString(R.string.text_joda_link));
+                break;
+        }
 
         //Set Width to match_parent
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
