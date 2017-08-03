@@ -5,11 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -342,7 +338,7 @@ public class MainActivity extends AppCompatActivity
         if (cursor.moveToFirst()) {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_exam_details);
+            dialog.setContentView(R.layout.layout_dialog_exam_details);
             dialog.setTitle("Details");
 
             TextView titleLineText = (TextView) dialog.findViewById(R.id.titleLineText);

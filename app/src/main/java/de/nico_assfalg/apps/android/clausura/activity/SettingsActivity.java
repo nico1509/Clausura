@@ -1,15 +1,11 @@
 package de.nico_assfalg.apps.android.clausura.activity;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.net.Uri;
-import android.opengl.ETC1;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -228,7 +224,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showEditTitleDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_pinned_edit);
+        dialog.setContentView(R.layout.layout_dialog_pinned_edit);
 
         final EditText editTitle = (EditText) dialog.findViewById(R.id.editTitle);
         editTitle.setText(getPinnedText());
