@@ -40,7 +40,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutShowPast"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="64dp"
                 android:background="?attr/selectableItemBackground">
 
                 <Switch
@@ -82,7 +82,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutShowPinned"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="64dp"
                 android:background="?attr/selectableItemBackground">
 
                 <Switch
@@ -131,7 +131,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutPinnedText"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="64dp"
                 android:background="?attr/selectableItemBackground">
 
                 <LinearLayout
@@ -167,7 +167,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutPinnedDate"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="64dp"
                 android:background="?attr/selectableItemBackground"
                 android:visibility="gone">
 
@@ -223,22 +223,22 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutInfo"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:layout_marginStart="16dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/textShowInfoDialog"
