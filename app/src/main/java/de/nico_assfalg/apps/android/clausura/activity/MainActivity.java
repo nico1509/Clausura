@@ -16,6 +16,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
+import de.nico_assfalg.apps.android.clausura.fragment.MainFragment;
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity
     Date tempDate; //needed for monthYear labels
 
     ConstraintLayout updateCard;
+
+    Fragment mainFragment;
 
     //OLD SHIT
     private static final int PERMISSION_REQUEST_ID_EXTERNAL_STORAGE = 42;
@@ -102,11 +107,14 @@ public class MainActivity extends AppCompatActivity
 
         PreferenceHelper.importOldSettings(getApplicationContext());
 
-        examList = (LinearLayout) findViewById(R.id.examList);
-        examList.removeAllViews();
-        populate();
+        initLectureEnd();
 
-        checkForUpdate();
+        mainFragment = new MainFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerMain, mainFragment);
+        transaction.commit();
+
+        //checkForUpdate(); TODO: Re-implement
     }
 
     @Override
@@ -132,7 +140,6 @@ public class MainActivity extends AppCompatActivity
      */
 
     private void populate() {
-        initLectureEnd();
 
         tempDate = new Date(0,0,0);
 
