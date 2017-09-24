@@ -14,6 +14,7 @@ public abstract class PreferenceHelper {
     private static SharedPreferences.Editor editor;
     public static final String IMPORT_SUCCESSFUL = "importSuccess";
     public static final String PINNED_DATE_TITLE = "pinnedDateTitle";
+    public static final String FRAGMENT_TO_LOAD = "fragmentToLoad";
 
     /*
     Saving Strings to SharedPreferences

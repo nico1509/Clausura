@@ -114,7 +114,14 @@ public class MainActivity extends AppCompatActivity
         //checkForUpdate(); TODO: Re-implement
     }
 
-    private void showFragment (int fragment) {
+    private void showFragment () {
+        int fragment;
+        String fragmentToLoad = PreferenceHelper.getPreference(this, PreferenceHelper.FRAGMENT_TO_LOAD);
+        if (fragmentToLoad.equals("")) {
+            fragment = FRAGMENT_MAIN;
+        } else {
+            fragment = Integer.parseInt(fragmentToLoad);
+        }
         switch (fragment) {
             case FRAGMENT_MAIN:
                 mainFragment = new MainFragment();
@@ -130,14 +137,14 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         initLectureEnd();
-        showFragment(FRAGMENT_MAIN);
+        showFragment();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         initLectureEnd();
-        showFragment(FRAGMENT_MAIN);
+        showFragment();
     }
 
     /*
