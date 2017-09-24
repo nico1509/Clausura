@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
         initLectureEnd();
 
-        //checkForUpdate(); TODO: Re-implement
+        checkForUpdate();
     }
 
     private void showFragment () {
@@ -145,6 +145,11 @@ public class MainActivity extends AppCompatActivity
         super.onRestart();
         initLectureEnd();
         showFragment();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     /*
