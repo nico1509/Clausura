@@ -16,8 +16,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
 
     public static final String KEY_EXTRA_EXAM_ID = "KEY_EXTRA_EXAM_ID";
+
+    private static final int FRAGMENT_MAIN = 1;
 
     private LinearLayout examList;
     ExamDBHelper dbHelper;
@@ -109,28 +111,33 @@ public class MainActivity extends AppCompatActivity
 
         initLectureEnd();
 
-        mainFragment = new MainFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerMain, mainFragment);
-        transaction.commit();
-
         //checkForUpdate(); TODO: Re-implement
+    }
+
+    private void showFragment (int fragment) {
+        switch (fragment) {
+            case FRAGMENT_MAIN:
+                mainFragment = new MainFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainerMain, mainFragment);
+                transaction.addToBackStack("main_fragment");
+                transaction.commit();
+                break;
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        examList = (LinearLayout) findViewById(R.id.examList);
-        examList.removeAllViews();
-        populate();
+        initLectureEnd();
+        showFragment(FRAGMENT_MAIN);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        examList = (LinearLayout) findViewById(R.id.examList);
-        examList.removeAllViews();
-        populate();
+        initLectureEnd();
+        showFragment(FRAGMENT_MAIN);
     }
 
     /*
@@ -567,7 +574,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void showPast(boolean enabled) {
+    private void showPast(boolean enabled) { //FIXME: Dialog und so
         if (!enabled) {
             PreferenceHelper.setPreference(getApplicationContext(), "0", "showPast");
             examList.removeAllViews();

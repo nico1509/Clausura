@@ -1,12 +1,13 @@
 package de.nico_assfalg.apps.android.clausura.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 import de.nico_assfalg.apps.android.clausura.R;
 import de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity;
 import de.nico_assfalg.apps.android.clausura.activity.MainActivity;
+import de.nico_assfalg.apps.android.clausura.fragment.dialogs.ExamDetailDialog;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
 import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
@@ -139,7 +141,7 @@ public class MainFragment extends Fragment {
         examLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showExamDetailsDialog(v);
+                showExamDetailsDialog(v.getId());
             }
         });
 
@@ -161,76 +163,22 @@ public class MainFragment extends Fragment {
         return examLayout;
     }
 
-    public void showExamDetailsDialog(final View v) {
-        final Cursor cursor = dbHelper.getExam(v.getId());
-        if (cursor.moveToFirst()) {
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.layout_dialog_exam_details);
-            dialog.setTitle("Details");
+    public void showExamDetailsDialog(int examId) {
+        ExamDetailDialog dialog = new ExamDetailDialog();
 
-            TextView titleLineText = (TextView) dialog.findViewById(R.id.titleLineText);
-            titleLineText.setText(cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TITLE)));
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_EXTRA_EXAM_ID, examId);
+        dialog.setArguments(bundle);
 
-            TextView dateLineTextDate = (TextView) dialog.findViewById(R.id.dateLineTextDate);
-            TextView dateLineTextUntil = (TextView) dialog.findViewById(R.id.dateLineTextUntil);
-            Date date = new Date(cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_DATE)));
-            dateLineTextDate.setText(date.toHumanString());
-            dateLineTextUntil.setText(Calculator.daysUntilAsString(date, getActivity()));
+        dialog.setTargetFragment(MainFragment.this, 1);
 
-            TextView timeLineText = (TextView) dialog.findViewById(R.id.timeLineText);
-            String time = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TIME));
-            if (time.equals("")) {
-                dialog.findViewById(R.id.timeLine).setVisibility(View.GONE);
-            } else {
-                timeLineText.setText(Date.parseTimeStringToHumanString(time));
-            }
+        dialog.show(getFragmentManager(), "exam_details");
+    }
 
-            TextView locationLineText = (TextView) dialog.findViewById(R.id.locationLineText);
-            String location = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_LOCATION));
-            if (location.equals("")) {
-                dialog.findViewById(R.id.locationLine).setVisibility(View.GONE);
-            } else {
-                locationLineText.setText(location);
-            }
-
-            TextView notesLineText = (TextView) dialog.findViewById(R.id.notesLineText);
-            String notes = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_NOTES));
-            if (notes.equals("")) {
-                dialog.findViewById(R.id.notesLine).setVisibility(View.GONE);
-            } else {
-                notesLineText.setText(notes);
-            }
-
-            Button examEditButton = (Button) dialog.findViewById(R.id.examEditButton);
-            examEditButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                    Intent intent = new Intent(getActivity(), ExamEditActivity.class);
-                    intent.putExtra(KEY_EXTRA_EXAM_ID, v.getId()); //Start Editing Activity with id of exam to edit
-                    startActivity(intent);
-                }
-            });
-
-            Button examDeleteButton = (Button) dialog.findViewById(R.id.examDeleteButton);
-            examDeleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    deleteExam(v);
-                    dialog.dismiss();
-                }
-            });
-            cursor.close();
-
-            //Set Width to match_parent
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            dialog.show();
-        } else {
-            cursor.close();
-        }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        deleteExam(examList.findViewById(resultCode));
     }
 
     private void deleteExam(View v) {
@@ -320,16 +268,15 @@ public class MainFragment extends Fragment {
     private void showPast(boolean enabled) {
         if (!enabled) {
             PreferenceHelper.setPreference(getActivity(), "0", "showPast");
-            examList.removeAllViews();
-            populate();
-            Snackbar snackbar = Snackbar.make(layout.findViewById(coordinatorLayout), "Vergangene Termine werden ausgeblendet.", Snackbar.LENGTH_LONG);
-            snackbar.show();
+            getActivity().recreate();
+            //Snackbar snackbar = Snackbar.make(layout.findViewById(coordinatorLayout), "Vergangene Termine werden ausgeblendet.", Snackbar.LENGTH_LONG);
+            //snackbar.show();
         } else {
             PreferenceHelper.setPreference(getActivity(), "1", "showPast");
             examList.removeAllViews();
-            populate();
-            Snackbar snackbar = Snackbar.make(layout.findViewById(coordinatorLayout), "Vergangene Termine werden angezeigt.", Snackbar.LENGTH_LONG);
-            snackbar.show();
+            getActivity().recreate();
+            //Snackbar snackbar = Snackbar.make(layout.findViewById(coordinatorLayout), "Vergangene Termine werden angezeigt.", Snackbar.LENGTH_LONG);
+            //snackbar.show();
         }
     }
 }
