@@ -8,7 +8,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,12 +25,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Switch switchShowPast;
     private Switch switchShowPinned;
+    private Switch switchOnlyWifi;
 
     private ConstraintLayout layoutPinnedText;
     private ConstraintLayout layoutPinnedDate;
+    private ConstraintLayout layoutOnlyWifi;
 
     private TextView textPinnedTextValue;
     private TextView textPinnedDateValue;
+    private TextView textOnlyWifiDescription;
 
 
     @Override
@@ -122,6 +124,25 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // Update WiFi Setting
+        layoutOnlyWifi = (ConstraintLayout) findViewById(R.id.layoutOnlyWifi);
+        switchOnlyWifi = (Switch) findViewById(R.id.switchOnlyWifi);
+        layoutOnlyWifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchOnlyWifi.setChecked(!switchOnlyWifi.isChecked());
+            }
+        });
+        switchOnlyWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setUpdateWifiOnly(isChecked);
+                setOnlyWifiDescriptionText(isChecked);
+            }
+        });
+        switchOnlyWifi.setChecked(updateWifiOnly());
+        setOnlyWifiDescriptionText(updateWifiOnly());
+
         // About Clausura Dialog
         ConstraintLayout layoutInfo = (ConstraintLayout) findViewById(R.id.layoutInfo);
         layoutInfo.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +194,32 @@ public class SettingsActivity extends AppCompatActivity {
             return false;
         } else {
             return true;
+        }
+    }
+
+    private boolean updateWifiOnly() {
+        String updateWifiOnly = PreferenceHelper.getPreference(this, PreferenceHelper.UPDATE_WIFI_ONLY);
+        if (updateWifiOnly.equals("0")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void setUpdateWifiOnly(boolean wifiOnly) {
+        if (wifiOnly) {
+            PreferenceHelper.setPreference(this, "1", PreferenceHelper.UPDATE_WIFI_ONLY);
+        } else {
+            PreferenceHelper.setPreference(this, "0", PreferenceHelper.UPDATE_WIFI_ONLY);
+        }
+    }
+
+    private void setOnlyWifiDescriptionText(boolean isChecked) {
+        textOnlyWifiDescription = (TextView) findViewById(R.id.textOnlyWifiDescription);
+        if (!isChecked) {
+            textOnlyWifiDescription.setText(getString(R.string.text_only_wifi_explanation_false));
+        } else {
+            textOnlyWifiDescription.setText(getString(R.string.text_only_wifi_explanation));
         }
     }
 

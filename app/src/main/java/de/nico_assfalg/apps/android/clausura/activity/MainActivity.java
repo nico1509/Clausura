@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         initLectureEnd();
         showFragment();
+        checkForUpdate();
     }
 
     @Override
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity
         super.onRestart();
         initLectureEnd();
         showFragment();
+        checkForUpdate();
     }
 
     @Override
@@ -242,9 +244,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void checkForUpdate() {
-        if (!checkWifiOnAndConnected()) {
-            return;
+        if (!PreferenceHelper.getPreference(this, PreferenceHelper.UPDATE_WIFI_ONLY).equals("0")) {
+            if (!checkWifiOnAndConnected()) {
+                return;
+            }
         }
+
         AsyncTask<String, Integer, String> checkerTask = new AsyncTask<String, Integer, String>() {
             @Override
             protected String doInBackground(String... params) {

@@ -15,6 +15,7 @@ public abstract class PreferenceHelper {
     public static final String IMPORT_SUCCESSFUL = "importSuccess";
     public static final String PINNED_DATE_TITLE = "pinnedDateTitle";
     public static final String FRAGMENT_TO_LOAD = "fragmentToLoad";
+    public static final String UPDATE_WIFI_ONLY = "updateWifiOnly";
 
     /*
     Saving Strings to SharedPreferences

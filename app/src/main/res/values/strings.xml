@@ -359,4 +359,8 @@ SOFTWARE.
     <string name="text_joda_link">
         http://www.joda.org/joda-time/index.html
     </string>
+    <string name="text_updates">Updates</string>
+    <string name="text_only_wifi">Nur WLAN</string>
+    <string name="text_only_wifi_explanation">Updates werden nur via WLAN gesucht</string>
+    <string name="text_only_wifi_explanation_false">Updates werden immer gesucht</string>
 </resources>
