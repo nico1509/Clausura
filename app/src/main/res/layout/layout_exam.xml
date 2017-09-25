@@ -36,7 +36,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingStart="16dp"
-                android:text="Mo." />
+                android:text="Mo."
+                android:textSize="10sp" />
         </LinearLayout>
 
         <LinearLayout
