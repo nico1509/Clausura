@@ -162,13 +162,16 @@ public class MainActivity extends AppCompatActivity
 
     private void initLectureEnd() {
         lectureEndLayout = (LinearLayout) findViewById(R.id.lectureEndLayout);
+        View listDivider = (View) findViewById(R.id.listDividerLectureEnd);
         final LinearLayout lectureEnd = (LinearLayout) lectureEndLayout.findViewById(R.id.examLayout);
         ImageButton showHideButton = (ImageButton) lectureEndLayout.findViewById(R.id.showHideLectureEndButton);
         if (PreferenceHelper.getPreference(this, "showLectureEnd").equals("0")) {
             lectureEnd.setVisibility(View.GONE);
+            listDivider.setVisibility(View.GONE);
             showHideButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_down_black_24dp));
         } else {
             lectureEnd.setVisibility(View.VISIBLE);
+            //listDivider.setVisibility(View.VISIBLE);
             showHideButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_up_black_24dp));
         }
         lectureEnd.setOnClickListener(new View.OnClickListener() {
