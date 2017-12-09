@@ -104,7 +104,7 @@
     <string name="text_backup_info">"Hier kannst Du eine Sicherungskopie aller Termine"
         "anlegen.\n\nDie Daten werden im Ordner \n\"Documents\\Clausura\" gespeichert. \nVon dort"
         "aus kannst Du sie z.B. auf ein anderes Gerät kopieren. \n\nDafür"
-        "muss Clausura auf Deinen Speicher zureifen dürfen!"
+        "muss Clausura auf Deinen Speicher zugreifen dürfen!"
     </string>
     <string name="text_permission_denied_restore">Keine Berechtigung gewährt. Wiederherstellen fehlgeschlagen.</string>
     <string name="text_permission_denied_backup">Keine Berechtigung gewährt. Backup fehlgeschlagen.</string>
