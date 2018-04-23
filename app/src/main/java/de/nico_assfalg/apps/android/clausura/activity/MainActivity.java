@@ -31,6 +31,7 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,6 +41,7 @@ import java.net.URL;
 import java.util.Calendar;
 
 import de.nico_assfalg.apps.android.clausura.fragment.MainFragment;
+import de.nico_assfalg.apps.android.clausura.helper.UpdateHelper;
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity
     ConstraintLayout updateCard;
 
     Fragment mainFragment;
+
+    static AsyncTask<String, Integer, String> checkerTask;
 
     //OLD SHIT
     private static final int PERMISSION_REQUEST_ID_EXTERNAL_STORAGE = 42;
@@ -253,36 +257,21 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        AsyncTask<String, Integer, String> checkerTask = new AsyncTask<String, Integer, String>() {
+        checkerTask = new AsyncTask<String, Integer, String>() {
             @Override
             protected String doInBackground(String... params) {
-                URL versionUrl = null;
+                String result = "-1";
                 try {
-                    versionUrl = new URL("http://clausura.nico-assfalg.de/version.php?thisversion=" + params[0]);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-                BufferedReader in = null;
-                try {
-                    in = new BufferedReader(new InputStreamReader(versionUrl.openStream()));
+                    result = UpdateHelper.getUpdateVersion("https://www.nico-assfalg.de/Clausura/version.php?thisversion=", params[0]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                String version;
-                try {
-                    if ((version = in.readLine()) != null)
-                        return version;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return "NOPE";
+                return result;
             }
 
             @Override
             protected void onPostExecute(String updateVersion) {
-                if (!updateVersion.contains("NOPE")) {
+                if (!updateVersion.contains("-1") && !updateVersion.contains("NOPE")) {
                     showUpdateCard(updateVersion);
                 }
             }
