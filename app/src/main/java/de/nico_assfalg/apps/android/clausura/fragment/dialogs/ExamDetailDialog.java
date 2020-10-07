@@ -6,8 +6,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.BundleCompat;
+
 import android.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ import de.nico_assfalg.apps.android.clausura.R;
 import de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity;
 import de.nico_assfalg.apps.android.clausura.fragment.MainFragment;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
+import de.nico_assfalg.apps.android.clausura.helper.TimerHelper;
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 
 public class ExamDetailDialog extends DialogFragment {
+
+    public static final String TIMER_PERMISSION = "de.nico_assfalg.apps.android.clausura.TIMER_PERMISSION";
 
     View layout;
 
@@ -59,7 +63,8 @@ public class ExamDetailDialog extends DialogFragment {
         final Cursor cursor = new ExamDBHelper(getActivity()).getExam(examId);
         if (cursor.moveToFirst()) {
             TextView titleLineText = (TextView) layout.findViewById(R.id.titleLineText);
-            titleLineText.setText(cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TITLE)));
+            final String title = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TITLE));
+            titleLineText.setText(title);
 
             TextView dateLineTextDate = (TextView) layout.findViewById(R.id.dateLineTextDate);
             TextView dateLineTextUntil = (TextView) layout.findViewById(R.id.dateLineTextUntil);
@@ -84,7 +89,7 @@ public class ExamDetailDialog extends DialogFragment {
             }
 
             TextView notesLineText = (TextView) layout.findViewById(R.id.notesLineText);
-            String notes = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_NOTES));
+            final String notes = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_NOTES));
             if (notes.equals("")) {
                 layout.findViewById(R.id.notesLine).setVisibility(View.GONE);
             } else {
@@ -109,6 +114,19 @@ public class ExamDetailDialog extends DialogFragment {
                     new ExamDBHelper(getActivity()).deleteExam(examId);
                     dismiss();
                     getTargetFragment().getActivity().recreate();
+                }
+            });
+
+            Button examWorkButton = (Button) layout.findViewById(R.id.examWorkButton);
+            examWorkButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TimerHelper timerHelper = new TimerHelper(getActivity());
+                    if (timerHelper.isTimerAppInstalled()) {
+                        getActivity().sendBroadcast(timerHelper.buildTimerIntent(examId, title, notes, 1), TIMER_PERMISSION);
+                        return;
+                    }
+                    getActivity().startActivity(timerHelper.buildDownloadIntent());
                 }
             });
 

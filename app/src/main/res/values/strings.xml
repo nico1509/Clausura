@@ -125,6 +125,7 @@
     <string name="hint_location">Ort hinzufügen</string>
     <string name="hint_notes">Notiz hinzufügen</string>
     <string name="button_delete">Entfernen</string>
+    <string name="button_work">Lernen</string>
     <string name="button_edit">Bearbeiten</string>
     <string name="text_end_of_lecture">Ende der Vorlesungszeit</string>
     <string name="text_tomorrow">Morgen</string>
@@ -363,4 +364,6 @@ SOFTWARE.
     <string name="text_only_wifi">Nur WLAN</string>
     <string name="text_only_wifi_explanation">Updates werden nur via WLAN gesucht</string>
     <string name="text_only_wifi_explanation_false">Updates werden immer gesucht</string>
-</resources>
+
+    <string name="permission_todo_name">Clausura Integration</string>
+    <string name="permission_todo_description">Enables the Clausura App to start the timer with a given Item</string></resources>
