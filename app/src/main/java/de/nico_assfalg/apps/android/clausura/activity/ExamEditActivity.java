@@ -53,6 +53,7 @@ public class ExamEditActivity extends AppCompatActivity
     private static String examTime;
     private static String examLocation;
     private static String examNotes;
+    private static int examProgress;
 
     int id;
 
@@ -184,12 +185,14 @@ public class ExamEditActivity extends AppCompatActivity
             examTime = rs.getString(rs.getColumnIndex(ExamDBHelper.EXAM_COLUMN_TIME));
             examLocation = rs.getString(rs.getColumnIndex(ExamDBHelper.EXAM_COLUMN_LOCATION));
             examNotes = rs.getString(rs.getColumnIndex(ExamDBHelper.EXAM_COLUMN_NOTES));
+            examProgress = rs.getInt(rs.getColumnIndex(ExamDBHelper.EXAM_COLUMN_PROGRESS));
         } else {
             examTitle = "";
             examDate = "";
             examTime = "";
             examLocation = "";
             examNotes = "";
+            examProgress = 0;
         }
     }
 
@@ -272,7 +275,7 @@ public class ExamEditActivity extends AppCompatActivity
 
     public void persistExam() {
         if (id > 0) {
-            if (dbHelper.updateExam(id, examTitle, examDate, examTime, examLocation, examNotes)) {
+            if (dbHelper.updateExam(id, examTitle, examDate, examTime, examLocation, examNotes, examProgress)) {
                 //Toast.makeText(getApplicationContext(), "Klausur geändert!", Toast.LENGTH_SHORT).show();
                 Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
                 backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -293,7 +296,7 @@ public class ExamEditActivity extends AppCompatActivity
                 Snackbar snackbar = Snackbar.make(editTitle, "Es müssen mindestens Titel und Datum eingetragen sein!", Snackbar.LENGTH_SHORT);
                 snackbar.show();
             } else {
-                if (dbHelper.insertExam(examTitle, examDate, examTime, examLocation, examNotes)) {
+                if (dbHelper.insertExam(examTitle, examDate, examTime, examLocation, examNotes, examProgress)) {
                     //Toast.makeText(getApplicationContext(), "Klausur hinzugefügt!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Klausur hinzufügen fehlgeschlagen!", Toast.LENGTH_SHORT).show();

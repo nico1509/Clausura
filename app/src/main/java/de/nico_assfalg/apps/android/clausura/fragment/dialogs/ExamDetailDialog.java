@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import de.nico_assfalg.apps.android.clausura.R;
@@ -72,6 +73,7 @@ public class ExamDetailDialog extends DialogFragment {
     public void onResume() {
         super.onResume();
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT); //
+        showDetails();
     }
 
     private void showDetails() {
@@ -102,6 +104,13 @@ public class ExamDetailDialog extends DialogFragment {
             } else {
                 locationLineText.setText(location);
             }
+
+            ProgressBar progressBar = layout.findViewById(R.id.progressBar);
+            if (!new TimerHelper(getActivity()).isTimerAppInstalled()) {
+                progressBar.setVisibility(View.GONE);
+            }
+            int progress = cursor.getInt(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_PROGRESS));
+            progressBar.setProgress(progress);
 
             TextView notesLineText = (TextView) layout.findViewById(R.id.notesLineText);
             final String notes = cursor.getString(cursor.getColumnIndex(ExamDBHelper.EXAM_COLUMN_NOTES));
@@ -138,7 +147,7 @@ public class ExamDetailDialog extends DialogFragment {
                 public void onClick(View view) {
                     TimerHelper timerHelper = new TimerHelper(getActivity());
                     if (timerHelper.isTimerAppInstalled()) {
-                        getActivity().sendBroadcast(timerHelper.buildTimerIntent(examId, title, notes, 1), TIMER_PERMISSION);
+                        getActivity().sendBroadcast(timerHelper.buildTimerIntent(examId, title, notes, progress), TIMER_PERMISSION);
                         return;
                     }
                     getActivity().startActivity(timerHelper.buildDownloadIntent());

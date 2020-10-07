@@ -54,7 +54,7 @@ public class TimerHelper {
         intent.putExtra("todo_id", examId)
                 .putExtra("todo_name", examTitle)
                 .putExtra("todo_description", examDescription)
-                .putExtra("todo_progress", 1)
+                .putExtra("todo_progress", examProgress)
                 .setPackage(TIMER_PACKAGE)
                 .setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         return intent;

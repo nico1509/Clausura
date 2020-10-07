@@ -62,7 +62,7 @@ public abstract class PreferenceHelper {
                     String title = exams[i+1];
                     String date = parseOldDate(exams[i]);
                     i += 4;
-                    dbHelper.insertExam(title, date, "", "", "");
+                    dbHelper.insertExam(title, date, "", "", "", 0);
                 }
             }
             setPreference(context, "true", IMPORT_SUCCESSFUL);
