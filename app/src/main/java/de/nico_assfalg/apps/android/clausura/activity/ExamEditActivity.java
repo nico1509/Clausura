@@ -9,11 +9,10 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,8 +29,6 @@ import java.util.Calendar;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
 import de.nico_assfalg.apps.android.clausura.R;
-
-import static android.view.View.GONE;
 
 public class ExamEditActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {

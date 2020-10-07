@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutShowPast"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -77,9 +77,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
 
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutShowPinned"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -126,9 +126,9 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:visibility="visible" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutPinnedText"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -162,9 +162,9 @@
                         android:text="textPinnedTextValue"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutPinnedDate"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -199,7 +199,7 @@
                         android:text="textPinnedDateValue"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -220,7 +220,7 @@
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutOnlyWifi"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -267,7 +267,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:visibility="visible" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -288,7 +288,7 @@
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutInfo"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -315,9 +315,9 @@
                         android:text="@string/text_about_clausura"
                         android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutInfoJoda"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -344,8 +344,8 @@
                         android:text="@string/text_about_joda"
                         android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,14 @@
 package de.nico_assfalg.apps.android.clausura.fragment;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.Nullable;
+
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,15 +16,11 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import de.nico_assfalg.apps.android.clausura.R;
-import de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity;
-import de.nico_assfalg.apps.android.clausura.activity.MainActivity;
 import de.nico_assfalg.apps.android.clausura.fragment.dialogs.ExamDetailDialog;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
 import de.nico_assfalg.apps.android.clausura.helper.PreferenceHelper;
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
-
-import static de.nico_assfalg.apps.android.clausura.R.id.coordinatorLayout;
 
 public class MainFragment extends Fragment {
 
