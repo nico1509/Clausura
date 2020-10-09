@@ -363,4 +363,6 @@ SOFTWARE.
     <string name="text_only_wifi">Nur WLAN</string>
     <string name="text_only_wifi_explanation">Updates werden nur via WLAN gesucht</string>
     <string name="text_only_wifi_explanation_false">Updates werden immer gesucht</string>
+
+    <string name="text_backup_warning">In aktuelleren Android-Versionen kann es Probleme beim Wiederherstellen geben!</string>
 </resources>
