@@ -366,4 +366,7 @@ SOFTWARE.
     <string name="text_only_wifi_explanation_false">Updates werden immer gesucht</string>
 
     <string name="permission_todo_name">Clausura Integration</string>
-    <string name="permission_todo_description">Enables the Clausura App to start the timer with a given Item</string></resources>
+    <string name="permission_todo_description">Enables the Clausura App to start the timer with a given Item</string>
+
+    <string name="text_backup_warning">In aktuelleren Android-Versionen kann es Probleme beim Wiederherstellen geben!</string>
+</resources>
