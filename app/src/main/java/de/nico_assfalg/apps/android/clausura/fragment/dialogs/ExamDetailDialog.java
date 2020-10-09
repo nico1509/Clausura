@@ -142,6 +142,10 @@ public class ExamDetailDialog extends DialogFragment {
             });
 
             Button examWorkButton = (Button) layout.findViewById(R.id.examWorkButton);
+            TimerHelper timerHelper = new TimerHelper(getActivity());
+            if (!timerHelper.isTimerAppInstalled()) {
+                examWorkButton.setVisibility(View.GONE);
+            }
             examWorkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
