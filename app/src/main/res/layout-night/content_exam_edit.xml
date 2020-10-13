@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="de.nico_assfalg.apps.android.clausura.activity.ExamEditActivity"
+    tools:showIn="@layout/activity_exam_edit">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <ImageView
+                android:id="@+id/timeImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editDate"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editDate"
+                app:srcCompat="@drawable/access_time_white_18dp" />
+
+            <ImageView
+                android:id="@+id/locationImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editLocation"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editLocation"
+                app:srcCompat="@drawable/location_on_white_18dp" />
+
+            <ImageView
+                android:id="@+id/notesImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editNotes"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editNotes"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/edit_white_18dp" />
+
+            <EditText
+                android:id="@+id/editTitle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="@string/hint_title"
+                android:inputType="text"
+                android:visibility="gone"
+                tools:layout_editor_absoluteY="411dp"
+                tools:layout_editor_absoluteX="8dp" />
+
+            <EditText
+                android:imeOptions="flagNoExtractUi"
+                android:id="@+id/editDate"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="false"
+                android:editable="false"
+                android:ems="10"
+                android:hint="@string/hint_date"
+                android:inputType="none"
+                tools:clickable="false"
+                app:layout_constraintLeft_toRightOf="@+id/timeImage"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintRight_toLeftOf="@+id/editTime"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:imeOptions="flagNoExtractUi"
+                android:id="@+id/editTime"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="@string/hint_time"
+                android:inputType="time"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp" />
+
+            <View
+                android:id="@+id/listDivider"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/editDate"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:imeOptions="flagNoExtractUi"
+                android:id="@+id/editLocation"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="@string/hint_location"
+                android:inputType="textPersonName"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/locationImage"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/listDivider"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <View
+                android:id="@+id/listDivider2"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/editLocation"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <EditText
+                android:id="@+id/editNotes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="@string/hint_notes"
+                android:inputType="textMultiLine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/notesImage"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/listDivider2"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</RelativeLayout>

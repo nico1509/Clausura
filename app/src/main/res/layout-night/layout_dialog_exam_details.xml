@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTintMode="src_over"
+    android:elevation="1dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/titleLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="0"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/titleLineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:text="titleLineText"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="33"
+            android:progressDrawable="@drawable/progress_circular"
+            android:rotation="270" />
+
+    </LinearLayout>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fadeScrollbars="false"
+            android:requiresFadingEdge="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/dateLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    app:srcCompat="@drawable/insert_invitation_white_18dp" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="32dp">
+
+                    <TextView
+                            android:id="@+id/dateLineTextDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="dateLineTextDate"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+                            android:textStyle="bold" />
+
+                    <TextView
+                            android:id="@+id/dateLineTextUntil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="dateLineTextUntil"
+                            android:textAppearance="@style/TextAppearance.AppCompat" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/timeLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    app:srcCompat="@drawable/access_time_white_18dp" />
+
+                <TextView
+                        android:id="@+id/timeLineText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="32dp"
+                        android:text="timeLineText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/locationLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    app:srcCompat="@drawable/location_on_white_18dp" />
+
+                <ViewSwitcher
+                        android:id="@+id/locationLineViewSwitcher"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <TextView
+                            android:id="@+id/locationLineText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="32dp"
+                            android:text="locationLineText"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                        <EditText
+                                android:id="@+id/locationLineEditText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="32dp"
+                                android:layout_weight="2"
+                                android:ems="10"
+                                android:inputType="textAutoCorrect"
+                                android:selectAllOnFocus="false"
+                                android:singleLine="true"
+                                android:text="Name"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+                        <Button
+                                android:id="@+id/locationLineOKButton"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="OK" />
+
+                        <Button
+                                android:id="@+id/locationLineAbortButton"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="X" />
+                    </LinearLayout>
+
+
+                </ViewSwitcher>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/notesLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="top|center_vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="15dp"
+                    app:srcCompat="@drawable/edit_white_18dp" />
+
+                <ViewSwitcher
+                        android:id="@+id/notesLineViewSwitcher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="15dp">
+
+                    <TextView
+                            android:id="@+id/notesLineText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:autoLink="web"
+                            android:gravity="top|center_vertical"
+                            android:paddingLeft="32dp"
+                            android:text="notesLineText"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="top"
+                            android:orientation="horizontal">
+
+                        <EditText
+                                android:id="@+id/notesLineEditText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="32dp"
+                                android:layout_weight="2"
+                                android:autoLink="all"
+                                android:breakStrategy="high_quality"
+                                android:ems="10"
+                                android:inputType="textAutoCorrect|textMultiLine"
+                                android:selectAllOnFocus="false"
+                                android:singleLine="false"
+                                android:text="Name"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+                        <Button
+                                android:id="@+id/notesLineOKButton"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="OK" />
+
+                        <Button
+                                android:id="@+id/notesLineAbortButton"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="X" />
+                    </LinearLayout>
+
+                </ViewSwitcher>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/buttonLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/examWorkButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="@string/button_work"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/examDeleteButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="@string/button_delete"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/examEditButton"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="@string/button_edit"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+</LinearLayout>
