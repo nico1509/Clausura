@@ -18,16 +18,8 @@ package de.nico_assfalg.apps.android.clausura.activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.browser.customtabs.CustomTabsIntent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.app.Fragment;
@@ -38,17 +30,14 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import de.nico_assfalg.apps.android.clausura.fragment.MainFragment;
-import de.nico_assfalg.apps.android.clausura.helper.UpdateHelper;
 import de.nico_assfalg.apps.android.clausura.time.Calculator;
 import de.nico_assfalg.apps.android.clausura.time.Date;
 import de.nico_assfalg.apps.android.clausura.helper.ExamDBHelper;
@@ -75,11 +64,7 @@ public class MainActivity extends AppCompatActivity
 
     Date tempDate; //needed for monthYear labels
 
-    ConstraintLayout updateCard;
-
     Fragment mainFragment;
-
-    static AsyncTask<String, Integer, String> checkerTask;
 
     //OLD SHIT
     private static final int PERMISSION_REQUEST_ID_EXTERNAL_STORAGE = 42;
@@ -119,8 +104,6 @@ public class MainActivity extends AppCompatActivity
         PreferenceHelper.importOldSettings(getApplicationContext());
 
         initLectureEnd();
-
-        checkForUpdate();
     }
 
     private void showFragment () {
@@ -147,7 +130,6 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         initLectureEnd();
         showFragment();
-        checkForUpdate();
     }
 
     @Override
@@ -155,7 +137,6 @@ public class MainActivity extends AppCompatActivity
         super.onRestart();
         initLectureEnd();
         showFragment();
-        checkForUpdate();
     }
 
     @Override
@@ -231,74 +212,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void showUpdateCard(String version) {
-        updateCard = (ConstraintLayout) lectureEndLayout.findViewById(R.id.updateCard);
-
-        TextView updateVersionText = (TextView) updateCard.findViewById(R.id.updateVersionText);
-        updateVersionText.setText(getString(R.string.text_version) + " " + version);
-
-        Button updateDownloadButton = (Button) updateCard.findViewById(R.id.updateDownloadButton);
-        updateDownloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://nico-assfalg.de/Clausura/updateChecker.php?thisversion="
-                        + PreferenceHelper.getAppVersion(getApplicationContext());
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    builder.setToolbarColor(getColor(R.color.colorPrimary));
-                }
-                CustomTabsIntent intent = builder.build();
-                intent.launchUrl(MainActivity.this, Uri.parse(url));
-            }
-        });
-
-        updateCard.setVisibility(View.VISIBLE);
-    }
-
-    private void checkForUpdate() {
-        if (!PreferenceHelper.getPreference(this, PreferenceHelper.UPDATE_WIFI_ONLY).equals("0")) {
-            if (!checkWifiOnAndConnected()) {
-                return;
-            }
-        }
-
-        checkerTask = new AsyncTask<String, Integer, String>() {
-            @Override
-            protected String doInBackground(String... params) {
-                String result = "-1";
-                try {
-                    result = UpdateHelper.getUpdateVersion("https://www.nico-assfalg.de/Clausura/version.php?thisversion=", params[0]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String updateVersion) {
-                if (!updateVersion.contains("-1") && !updateVersion.contains("NOPE")) {
-                    showUpdateCard(updateVersion);
-                }
-            }
-        }.execute(PreferenceHelper.getAppVersion(getApplicationContext()));
-    }
-
-    private boolean checkWifiOnAndConnected() {
-        WifiManager wifiMgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        if (wifiMgr.isWifiEnabled()) { // Wi-Fi adapter is ON
-
-            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-
-            if( wifiInfo.getNetworkId() == -1 ){
-                return false; // Not connected to an access point
-            }
-            return true; // Connected to an access point
-        }
-        else {
-            return false; // Wi-Fi adapter is OFF
-        }
-    }
     /*
 
                 OLD SHIT

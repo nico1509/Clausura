@@ -23,15 +23,12 @@ import android.os.Build;
 
 import androidx.browser.customtabs.CustomTabsIntent;
 
-import java.net.URL;
-
 import de.nico_assfalg.apps.android.clausura.R;
 
 public class TimerHelper {
 
     public static final String TIMER_ACTION = "de.nico_assfalg.apps.android.clausura.TIMER_ACTION";
     public static final String TIMER_PACKAGE = "org.secuso.privacyfriendlyproductivitytimer";
-    public static final String DOWNLOAD_URL = "https://nico-assfalg.de/Clausura/#Timer";
 
     private Context context;
 
@@ -66,6 +63,6 @@ public class TimerHelper {
             builder.setToolbarColor(context.getColor(R.color.colorPrimary));
         }
         CustomTabsIntent intent = builder.build();
-        return intent.intent.setData(Uri.parse(DOWNLOAD_URL));
+        return intent.intent.setData(Uri.parse(context.getString(R.string.url_releases)));
     }
 }
