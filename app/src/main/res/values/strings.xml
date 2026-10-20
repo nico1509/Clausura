@@ -134,6 +134,7 @@
     <string name="text_x_days_ago">Vor %1$d Tagen</string>
     <string name="text_in_x_days">In %1$d Tagen</string>
     <string name="text_copyright">© 2016 Nico Assfalg</string>
+    <string name="url_releases" translatable="false">https://github.com/nico1509/Clausura/releases</string>
     <string name="button_update">Update suchen</string>
     <string name="button_close">Schließen</string>
     <string name="button_license">Lizenz</string>
@@ -149,9 +150,6 @@
     <string name="text_no_exams_past">Keine Klausuren zum Anzeigen vorhanden.</string>
     <string name="button_show_past_plural">%1$d vergangene Termine zeigen</string>
     <string name="button_show_past_singular">Vergangenen Termin zeigen</string>
-    <string name="text_update_available">Update verfügbar!</string>
-    <string name="button_download">Herunterladen</string>
-    <string name="text_version">Version</string>
     <string name="title_activity_settings">Einstellungen</string>
     <string name="text_settings_head_ui">Darstellung</string>
     <string name="text_show_past">Vergangene Termine anzeigen</string>
@@ -345,10 +343,6 @@
     <string name="text_joda_link">
         http://www.joda.org/joda-time/index.html
     </string>
-    <string name="text_updates">Updates</string>
-    <string name="text_only_wifi">Nur WLAN</string>
-    <string name="text_only_wifi_explanation">Updates werden nur via WLAN gesucht</string>
-    <string name="text_only_wifi_explanation_false">Updates werden immer gesucht</string>
 
     <string name="permission_todo_name">Clausura Integration</string>
     <string name="permission_todo_description">Enables the Clausura App to start the timer with a given Item</string>
